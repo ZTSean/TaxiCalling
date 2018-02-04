@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Login</title>
+
+    <!-- Bootstrap core CSS -->
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom css for this template -->
+    <link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">
+</head>
+
+<body class="text-center">
+<div class="form-signin">
+
+    <h1 class="h3 mb-3 font-weight-normal">Choose:</h1>
+    <form action="" method="POST">
+        <button class="btn btn-lg btn-primary btn-block" name="page" type="submit" value="caller">Customer</button>
+    </form>
+    <form action="" method="POST">
+        <button class="btn btn-lg btn-warning btn-block" name="page" type="submit" value="driver">Driver</button>
+    </form>
+    <form action="" method="POST">
+        <button class="btn btn-lg btn-success btn-block" name="page" type="submit" value="callcentre">Call Centre
+        </button>
+    </form>
+    <!--
+    <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="visitCaller()">Customer</button>
+    <button class="btn btn-lg btn-warning btn-block" type="submit" onclick="visitDriver()">Driver</button>
+    <button class="btn btn-lg btn-success btn-block" type="submit" onclick="visitCallCentre()">Call Centre</button>
+    -->
+</div>
+
+</body>
+
+</html>

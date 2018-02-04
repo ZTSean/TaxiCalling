@@ -1,0 +1,8 @@
+#map #infowindow-content {
+    display: inline;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
