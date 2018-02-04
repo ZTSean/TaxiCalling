@@ -3,9 +3,9 @@
 ### Setting it Up
 
 1. install python
-2. install mysql & set it up according to the database_instruction.md file
-3. clone the project to the location you want
-
+2. install [virtualenv](https://virtualenv.pypa.io/en/stable/installation/) 
+3. install mysql & set it up according to the database_instruction.md file
+4. clone the project to the location you want
 
 
 #### Run the project
