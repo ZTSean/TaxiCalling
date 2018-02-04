@@ -16,14 +16,14 @@ To create database for the taxicalling project, you have to run the command belo
 
 (How to determine whether you've enter the mysql in the terminal:
 
-you will see `mysql > ` 
+you will see `mysql > ` )
 
-)
+
 
 
 
 #### Create table for caller
-
+**Notice**: to enter the database taxicalling, do command `\u taxicalling`
 run the following SQL sentence when you enter the database `taxicalling`
 
 ```
