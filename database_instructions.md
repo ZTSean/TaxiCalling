@@ -23,7 +23,7 @@ you will see `mysql > ` )
 
 
 #### Create table for caller
-**Notice**: to enter the database taxicalling, do command `\u taxicalling`
+**Notice**: to enter the database taxicalling, do command `\u taxicalling;`
 run the following SQL sentence when you enter the database `taxicalling`
 
 ```

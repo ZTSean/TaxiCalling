@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+
+        .controls {
+            background-color: #fff;
+            border-radius: 2px;
+            border: 1px solid transparent;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+            font-family: Roboto;
+            font-size: 15px;
+            font-weight: 300;
+            height: 29px;
+            margin-left: 17px;
+            margin-top: 10px;
+            outline: none;
+            padding: 0 11px 0 13px;
+            text-overflow: ellipsis;
+            width: 400px;
+        }
+
+        .controls:focus {
+            border-color: #4d90fe;
+        }
+
+        .title {
+            font-weight: bold;
+        }
+
+        #infowindow-content {
+            display: none;
+        }
+
+
+    </style>
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='css/map.css') }}" rel="stylesheet">
+
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+
+
+</head>
+
+<body>
+<!--Page Title-->
+<div class="jumbotron">
+    <div class="container text-center">
+        <h1>DingDing's Calling Taxi</h1>
+        <p2>Fast, Convenient & Easy</p2>
+    </div>
+</div>
+<!-- Page Content -->
+<div class="col-lg-8" style="padding-left: 80px">
+    <div>
+        <h id="hour"></h>
+        <script>
+            var timestampnow;
+            var text = "";
+            var myDate = new Date();
+            timestampnow = myDate.getHours();
+            if (timestampnow < 12) {
+                text = "Good morning! It's ";
+            } else if (timestampnow < 18) {
+                text = "Good afternoon! It's";
+            } else {
+                text = "Good night! It's";
+            }
+            document.getElementById("hour").innerHTML = text;
+        </script>
+        <h id="dateandtime"></h>
+        <script type="text/javascript">
+            Date.prototype.Format = function (fmt) {
+                var o = {
+                    "M+": this.getMonth() + 1, //月份 
+                    "d+": this.getDate(), //日 
+                    "h+": this.getHours(), //小时 
+                    "m+": this.getMinutes(), //分 
+                    "s+": this.getSeconds(), //秒 
+                    "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+                    "S": this.getMilliseconds() //毫秒 
+                };
+                if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+                for (var k in o)
+                    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+                return fmt;
+            };
+
+            var time1 = new Date().Format("yyyy-MM-dd hh:mm:ss");
+
+            document.getElementById("dateandtime").innerHTML = time1;
+        </script>
+        <h>now.</h>
+    </div>
+</div>
+<!-- PAGE CORE -->
+<!--MAP PART-->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8" style="min-height: 600px; padding: 20px">
+            <hr>
+            <input id="pac-input" class="controls" type="text" placeholder="Enter a location">
+            <div id="map"></div>
+
+            <!-- infowindow for displaying chosen place -->
+            <div id="infowindow-content">
+                <span id="place-name" class="title"></span>
+                <br> Place ID <span id="place-id"></span>
+                <br>
+                <span id="place-address"></span>
+            </div>
+        </div>
+
+        <!-- Sidebar Column -->
+        <div class="col-lg-4">
+            <form id="form-call-taxi" action="" method="post">
+                <!-- Side Widget -->
+                <div class="card my-4">
+                    <h5 class="card-header">Personal Info</h5>
+                    <div class="card-block">
+                        <input type="text" id="call-taxi-name" class="form-control" name="name" placeholder="Your Name"
+                               required>
+                        <input type="text" id="call-taxi-phone" class="form-control" name="phone"
+                               placeholder="Phone Number">
+                    </div>
+
+                </div>
+                <div class="card my-4">
+                    <h5 class="card-header">Search For Your Destionation</h5>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="call-taxi-address" name="destination"
+                                   placeholder="Central">
+                            <span class="input-group-btn">
+                                <button class="btn btn-secondary" type="button">Confirm</button>
+                            </span>
+                        </div>
+                        <input type="hidden" id="call-taxi-date" name="date">
+                        <input type="hidden" id="call-taxi-time" name="time">
+                        <input type="hidden" id="call-taxi-from_x" name="from_x">
+                        <input type="hidden" id="call-taxi-from_y" name="from_y">
+                        <input type="hidden" id="call-taxi-to_x" name="to_x">
+                        <input type="hidden" id="call-taxi-to_y" name="to_y">
+                        <p style="padding: 20px 0px 0px 0px">
+                            Or pinpoint your destination at the map
+                        </p>
+                    </div>
+                </div>
+            </form>
+            <!-- Button -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <a href="#" id="btn-call-taxi" class="btn btn-primary btn-block">CALL A TAXI</a>
+                </div>
+                <div class="col-lg-6">
+                    <a href="#" class="btn btn-danger btn-block">CANCEL</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+
+<script>
+    // fill information of current location
+    geolocate();
+
+    $("#btn-call-taxi").click(function () {
+        // validate the input in the form
+
+
+        // get current time
+        var now = new Date();
+        var date = now.toISOString().slice(0, 19).replace('T', ' ').split(" ");
+
+
+        document.getElementById('call-taxi-date').value = date[0];
+        document.getElementById('call-taxi-time').value = date[1];
+
+        console.log(document.getElementById('call-taxi-name').value);
+        console.log(document.getElementById('call-taxi-phone').value);
+        console.log(document.getElementById('call-taxi-address').value);
+        console.log(document.getElementById('call-taxi-date').value);
+        console.log(document.getElementById('call-taxi-time').value);
+        console.log(document.getElementById('call-taxi-from_x').value);
+        console.log(document.getElementById('call-taxi-from_y').value);
+        console.log(document.getElementById('call-taxi-to_x').value);
+        console.log(document.getElementById('call-taxi-to_y').value);
+
+        // !!!!! we need to validate the input
+        // if name is empty
+
+
+        $("#form-call-taxi").submit();
+    });
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZ2cAeiEseW9hyqSjuJnsgbKS5DLVPvOs&libraries=places&callback=initMap"
+        async defer></script>
+
+</body>
+
+</html>

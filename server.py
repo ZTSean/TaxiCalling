@@ -28,16 +28,37 @@ def welcome():
 @app.route("/caller", methods=['GET', 'POST'])
 def caller():
     if request.method == "POST":
-        # write new request to the database
-        name = request.form['name']
-        phone = request.form['phone']
 
         for key, value in request.form.iteritems():
-            print key, value
+            print key, len(value)
+
+        # validate each fields in the request form
+        # fields in request: name , to_x , to_y, from_y , from_x, phone, time, date, destination
+        name = "anonymous" if len(request.form['name']) == 0 else request.form['name']
+        phone = "1111" if len(request.form['phone']) == 0 else request.form['phone']
+        to_x = "1111" if len(request.form['to_x']) == 0 else request.form['to_x']
+        to_y = "1111" if len(request.form['to_y']) == 0 else request.form['to_y']
+        from_y = "1111" if len(request.form['from_y']) == 0 else request.form['from_y']
+        from_x = "1111" if len(request.form['from_x']) == 0 else request.form['from_x']
+        time = "1111" if len(request.form['time']) == 0 else request.form['time']
+        date = "1111" if len(request.form['date']) == 0 else request.form['date']
+        destination = "1111" if len(request.form['destination']) == 0 else request.form['destination']
 
         '''
-        cur.execute("INSERT INTO request (date, time, from_x, from_y, name, phone, destination, to_x, to_y) VALUES (" + "'")
+        cur.execute("SELECT id FROM request ORDER BY id DESC");
+        row = cur.fetchone()
+        id = 0
+        if row is not None:
+            id = 
+        else:
+            print "no data inside"
         '''
+
+        # write new request to the database
+        sql = "INSERT INTO request (date, time, from_x, from_y, name, phone, destination, to_x, to_y) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        cur.execute(sql, (date, time, from_x, from_y, name, phone, destination, to_x, to_y))
+
+        conn.commit()
 
         return render_template('caller.html')
     else:
