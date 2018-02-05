@@ -91,12 +91,7 @@
         });
 
         // traverse each driver's data & add marker with infowindow
-        var tmp1 = {
-        {
-            driverdata | safe
-        }
-    }
-        ;
+        var tmp1 = {{ driverdata | safe }};
 
         var drivermakers = [];
         var callermakers = [];
@@ -124,12 +119,7 @@
             drivermakers.push(marker);
         }
 
-        var tmp2 = {
-        {
-            callerdata | safe
-        }
-    }
-        ;
+        var tmp2 = {{ callerdata | safe }};
 
         for (let i = 0; i < tmp2.length; i++) {
             //console.log(tmp2[i]);

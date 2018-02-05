@@ -113,6 +113,7 @@ function fillInfoWindowContent(name, id, address) {
 function fillInAddress() {
     // Get the place details from the autocomplete object.
     var place = autocomplete.getPlace();
+    console.log(place.formatted_address);
 
     // fill the location info into the form, which will be submitted
     document.getElementById('call-taxi-address').value = place.formatted_address;

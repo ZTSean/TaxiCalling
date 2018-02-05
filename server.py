@@ -46,16 +46,18 @@ def caller():
 
         # validate each fields in the request form
         # fields in request: name , to_lat , to_lng, from_lng , from_lat, phone, time, date, destination
-        name = "anonymous" if request.form.get('name', None) == None else request.form['name']
+        name = "anonymous" if request.form.get('name', None) == None or len(request.form.get('name')) == 0 else request.form['name']
         phone = "1111" if request.form.get('phone', None) == None else request.form['phone']
-        to_lat = "22" if request.form.get('to_lat', None) == None else request.form['to_lat']
-        to_lng = "143" if request.form.get('to_lng', None) == None else request.form['to_lng']
-        from_lng = "143" if request.form.get('from_lng', None) == None else request.form['from_lng']
-        from_lat = "22" if request.form.get('from_lat', None) == None else request.form['from_lat']
-        time = "1111" if request.form.get('time', None) == None else request.form['time']
-        date = "1111" if request.form.get('date', None) == None else request.form['date']
+        to_lat = "22" if request.form.get('to_lat', None) == None else str(round(float(request.form['to_lat']), 8))
+        to_lng = "143" if request.form.get('to_lng', None) == None else round(float(request.form['to_lng']), 9)
+        from_lng = "143" if request.form.get('from_lng', None) == None else round(float(request.form['from_lng']), 9)
+        from_lat = "22" if request.form.get('from_lat', None) == None else round(float(request.form['from_lat']), 8)
+        time = "00:00:00" if request.form.get('time', None) == None else request.form['time']
+        date = "2018-02-05" if request.form.get('date', None) == None else request.form['date']
         destination = "1111" if request.form.get('destination', None) == None else request.form['destination']
 
+        print ""
+        print from_lat, from_lng, to_lat, to_lng
         '''
         cur.execute("SELECT id FROM request ORDER BY id DESC");
         row = cur.fetchone()
