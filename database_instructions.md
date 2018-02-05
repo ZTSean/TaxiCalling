@@ -31,13 +31,13 @@ CREATE TABLE request(
  id INT NOT NULL AUTO_INCREMENT,
  date DATE NOT NULL,
  time TIME NOT NULL,
- from_x DECIMAL(10, 8) NOT NULL,
- from_y DECIMAL(11, 8) NOT NULL,
+ from_lat DECIMAL(10, 8) NOT NULL,
+ from_lng DECIMAL(11, 8) NOT NULL,
  name VARCHAR(255) NOT NULL,
  phone VARCHAR(20),
  destination VARCHAR(255) ,
- to_x DECIMAL(10, 8) NOT NULL,
- to_y DECIMAL(11, 8) NOT NULL,
+ to_lat DECIMAL(10, 8) NOT NULL,
+ to_lng DECIMAL(11, 8) NOT NULL,
  PRIMARY KEY(id)
 );
 
@@ -54,13 +54,14 @@ CREATE TABLE driver(
  id INT NOT NULL AUTO_INCREMENT,
  date DATE NOT NULL,
  time TIME NOT NULL,
- location_x DECIMAL(10, 8) NOT NULL,
- location_y DECIMAL(11, 8) NOT NULL,
+ location_lat DECIMAL(10, 8) NOT NULL,
+ location_ DECIMAL(11, 8) NOT NULL,
  name VARCHAR(255) NOT NULL,
  status INT,
  PRIMARY KEY(id)
 );
 ```
+
 
 
 

@@ -73,14 +73,6 @@
         <div class="col-lg-12" style="min-height: 500px; padding: 20px">
             <hr>
             <div id="map"></div>
-
-            <!-- infowindow for displaying chosen place -->
-            <div id="infowindow-content">
-                <span id="place-name" class="title"></span>
-                <br> Place ID <span id="place-id"></span>
-                <br>
-                <span id="place-address"></span>
-            </div>
         </div>
     </div>
     <!-- /.row -->
@@ -88,6 +80,104 @@
 
 <!-- /.container -->
 <script src="{{ url_for('static', filename='js/callcentremap.js') }}"></script>
+
+<script>
+    var mapId = "map";
+
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById(mapId), {
+            center: {lat: 22.2823571, lng: 114.13887319999999},
+            zoom: 15
+        });
+
+        // traverse each driver's data & add marker with infowindow
+        var tmp1 = {
+        {
+            driverdata | safe
+        }
+    }
+        ;
+
+        var drivermakers = [];
+        var callermakers = [];
+
+        for (let i = 0; i < tmp1.length; i++) {
+            //console.log(tmp[i]);
+            let marker = new google.maps.Marker({
+                map: map,
+                position: {lat: tmp1[i]['location_lat'], lng: tmp1[i]['location_lng']},
+                icon: {
+                    url: "https://d30y9cdsu7xlg0.cloudfront.net/png/996-200.png",
+                    scaledSize: new google.maps.Size(48, 48)
+                }
+            });
+
+            // add info window
+            let infowindow = new google.maps.InfoWindow();
+            marker.addListener('click', function () {
+
+                infowindow.close();
+                infowindow.setContent(fillInfoWindowContentDriver(tmp1[i]));
+                infowindow.open(map, marker);
+            });
+
+            drivermakers.push(marker);
+        }
+
+        var tmp2 = {
+        {
+            callerdata | safe
+        }
+    }
+        ;
+
+        for (let i = 0; i < tmp2.length; i++) {
+            //console.log(tmp2[i]);
+            let marker = new google.maps.Marker({
+                map: map,
+                position: {lat: tmp2[i]['from_lat'], lng: tmp2[i]['from_lng']},
+                icon: {
+                    url: "https://d30y9cdsu7xlg0.cloudfront.net/png/5024-200.png",
+                    scaledSize: new google.maps.Size(48, 48)
+                }
+            });
+
+            // add info window
+            let infowindow = new google.maps.InfoWindow();
+            marker.addListener('click', function () {
+
+                infowindow.close();
+                infowindow.setContent(fillInfoWindowContentCaller(tmp2[i]));
+                infowindow.open(map, marker);
+            });
+
+            drivermakers.push(marker);
+        }
+    }
+
+    function fillInfoWindowContentDriver(entry) {
+        var status = "Available";
+        if (entry.status == 2) status = "Hired";
+        else if (entry.status == 3) status = "On-Call";
+
+        var content = '<div id="infowindow-content">' +
+            '<span id="driver-id" class="title">Driver ID: ' + entry.id + '</span><br>' +
+            'Name: <span id="driver-name">' + entry.name + '</span><br>' +
+            'Status: <span id="driver-status">' + status + '</span><br></div>';
+
+        return content;
+    }
+
+    function fillInfoWindowContentCaller(entry) {
+
+        var content = '<div id="infowindow-content">' +
+            'Name: <span id="caller-name">' + entry.name + '</span><br>' +
+            'Destination: <span id="caller-status">' + entry.destination + '</span><br></div>';
+
+        return content;
+    }
+
+</script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZ2cAeiEseW9hyqSjuJnsgbKS5DLVPvOs&libraries=places&callback=initMap"
         async defer></script>

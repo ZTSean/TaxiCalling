@@ -8,6 +8,7 @@
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 var searchInputId = "pac-input";
 var mapId = "map";
+var curLocationMarker;
 
 function initMap() {
     var map = new google.maps.Map(document.getElementById(mapId), {
@@ -20,12 +21,22 @@ function initMap() {
 
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
+    var infoWindowContent = '<div class="info_content">' +
+        '<h3>London Eye</h3>' +
+        '<p>The London Eye is a giant Ferris wheel situated on the banks of the River Thames. The entire structure is 135 metres (443 ft) tall and the wheel has a diameter of 120 metres (394 ft).</p>' +
+        '</div>';
+
     var infowindow = new google.maps.InfoWindow();
     var marker = new google.maps.Marker({
         map: map
     });
     marker.addListener('click', function () {
         infowindow.open(map, marker);
+    });
+
+    // current location marker
+    curLocationMarker = new google.maps.Marker({
+        map: map
     });
 
     // initialize autocomplete
@@ -95,8 +106,21 @@ function showInfoWindow(map, infowindow, marker) {
         + document.getElementById('call-taxi-to_y').value
     );
 
-    infowindow.setContent(document.getElementById('infowindow-content'));
+    infowindow.setContent(fillInfoWindowContent(place.name, place.id, place.formatted_address));
     infowindow.open(map, marker);
+}
+
+function fillInfoWindowContent(name, id, address) {
+    var content = '<div id="infowindow-content">' +
+        '<span id="place-name" class="title">' + name + '</span>' +
+        '<br>' +
+        'Place ID: <span id="place-id">' + id + '</span>' +
+        '<br>' +
+        '<span id="place-address">' + address + '</span><br>' +
+        '<button class="btn btn-primary btn-sm">Confirm</button>' +
+        '</div>';
+
+    return content;
 }
 
 function fillInAddress() {
@@ -146,10 +170,12 @@ function showPosition(position) {
     });
     autocomplete.setBounds(circle.getBounds());
     */
+    curLocationMarker.setPosition(geolocation);
+    curLocationMarker.setVisible(true);
 
     // get current location
-    document.getElementById('call-taxi-from_x').value = position.coords.latitude;
-    document.getElementById('call-taxi-from_y').value = position.coords.longitude;
+    document.getElementById('call-taxi-from_x').value = geolocation.lat;
+    document.getElementById('call-taxi-from_y').value = geolocation.lng;
     console.log("Current location: " +
         document.getElementById('call-taxi-from_x').value + " "
         + document.getElementById('call-taxi-from_y').value
