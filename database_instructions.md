@@ -55,7 +55,7 @@ CREATE TABLE driver(
  date DATE NOT NULL,
  time TIME NOT NULL,
  location_lat DECIMAL(10, 8) NOT NULL,
- location_ DECIMAL(11, 8) NOT NULL,
+ location_lng DECIMAL(11, 8) NOT NULL,
  name VARCHAR(255) NOT NULL,
  status INT,
  PRIMARY KEY(id)

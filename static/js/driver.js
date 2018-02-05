@@ -8,18 +8,70 @@
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
 var mapId = "map";
+var map;
+var curLocationMarker;
+var infowindow;
 
 function initMap() {
-    var map = new google.maps.Map(document.getElementById(mapId), {
+    map = new google.maps.Map(document.getElementById(mapId), {
         center: {lat: 22.2823571, lng: 114.13887319999999},
         zoom: 15
     });
 
-    var infowindow = new google.maps.InfoWindow();
-    var marker = new google.maps.Marker({
+    // current location marker
+    infowindow = new google.maps.InfoWindow();
+
+    curLocationMarker = new google.maps.Marker({
         map: map
     });
-    marker.addListener('click', function () {
-        infowindow.open(map, marker);
+
+    curLocationMarker.addListener('click', function () {
+        infowindow.open(map, curLocationMarker);
     });
+}
+
+function geolocate() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    }
+}
+
+function showPosition(position) {
+    curLocationMarker.setVisible(false);
+    infowindow.close();
+
+    var geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+    };
+
+    curLocationMarker.setPosition(geolocation);
+    curLocationMarker.setVisible(true);
+
+    //reset map center
+    map.setOptions({
+        center: geolocation,
+        zoom: 15
+    });
+
+    infowindow.setContent("<div>Your current location: <div>" + geolocation.lat + " " + geolocation.lng);
+    infowindow.open(map, curLocationMarker);
+}
+
+function showError(error) {
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            console.log("User denied the request for Geolocation.");
+
+            break;
+        case error.POSITION_UNAVAILABLE:
+            console.log("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+            console.log("The request to get user location timed out.");
+            break;
+        case error.UNKNOWN_ERROR:
+            console.log("An unknown error occurred.");
+            break;
+    }
 }

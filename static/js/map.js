@@ -93,19 +93,6 @@ function showInfoWindow(map, infowindow, marker) {
     });
     marker.setVisible(true);
 
-    document.getElementById('place-name').textContent = place.name;
-    document.getElementById('place-id').textContent = place.place_id;
-    document.getElementById('place-address').textContent = place.formatted_address;
-
-    // fill the location info into the form, which will be submitted
-    document.getElementById('call-taxi-address').value = place.formatted_address;
-    document.getElementById('call-taxi-to_x').value = place.geometry.location.lat();
-    document.getElementById('call-taxi-to_y').value = place.geometry.location.lng();
-    console.log("Fill the addr:" + document.getElementById('call-taxi-address').value + " " +
-        document.getElementById('call-taxi-to_x').value + " "
-        + document.getElementById('call-taxi-to_y').value
-    );
-
     infowindow.setContent(fillInfoWindowContent(place.name, place.id, place.formatted_address));
     infowindow.open(map, marker);
 }
@@ -117,7 +104,7 @@ function fillInfoWindowContent(name, id, address) {
         'Place ID: <span id="place-id">' + id + '</span>' +
         '<br>' +
         '<span id="place-address">' + address + '</span><br>' +
-        '<button class="btn btn-primary btn-sm">Confirm</button>' +
+        '<button class="btn btn-primary btn-sm" onclick="fillInAddress()">Confirm</button>' +
         '</div>';
 
     return content;
@@ -127,7 +114,15 @@ function fillInAddress() {
     // Get the place details from the autocomplete object.
     var place = autocomplete.getPlace();
 
-    console.log(place);
+    // fill the location info into the form, which will be submitted
+    document.getElementById('call-taxi-address').value = place.formatted_address;
+    document.getElementById('call-taxi-to_x').value = place.geometry.location.lat();
+    document.getElementById('call-taxi-to_y').value = place.geometry.location.lng();
+    console.log("Fill the addr:" + document.getElementById('call-taxi-address').value + " " +
+        document.getElementById('call-taxi-to_x').value + " "
+        + document.getElementById('call-taxi-to_y').value
+    );
+
     // ========================== filling the form ===============================
     /*
     for (var component in componentForm) {

@@ -42,19 +42,19 @@ def caller():
     if request.method == "POST":
 
         for key, value in request.form.iteritems():
-            print key, len(value)
+            print key, value, len(value)
 
         # validate each fields in the request form
         # fields in request: name , to_lat , to_lng, from_lng , from_lat, phone, time, date, destination
-        name = "anonymous" if len(request.form['name']) == 0 else request.form['name']
-        phone = "1111" if len(request.form['phone']) == 0 else request.form['phone']
-        to_lat = "1111" if len(request.form['to_lat']) == 0 else request.form['to_lat']
-        to_lng = "1111" if len(request.form['to_lng']) == 0 else request.form['to_lng']
-        from_lng = "1111" if len(request.form['from_lng']) == 0 else request.form['from_lng']
-        from_lat = "1111" if len(request.form['from_lat']) == 0 else request.form['from_lat']
-        time = "1111" if len(request.form['time']) == 0 else request.form['time']
-        date = "1111" if len(request.form['date']) == 0 else request.form['date']
-        destination = "1111" if len(request.form['destination']) == 0 else request.form['destination']
+        name = "anonymous" if request.form.get('name', None) == None else request.form['name']
+        phone = "1111" if request.form.get('phone', None) == None else request.form['phone']
+        to_lat = "22" if request.form.get('to_lat', None) == None else request.form['to_lat']
+        to_lng = "143" if request.form.get('to_lng', None) == None else request.form['to_lng']
+        from_lng = "143" if request.form.get('from_lng', None) == None else request.form['from_lng']
+        from_lat = "22" if request.form.get('from_lat', None) == None else request.form['from_lat']
+        time = "1111" if request.form.get('time', None) == None else request.form['time']
+        date = "1111" if request.form.get('date', None) == None else request.form['date']
+        destination = "1111" if request.form.get('destination', None) == None else request.form['destination']
 
         '''
         cur.execute("SELECT id FROM request ORDER BY id DESC");
@@ -67,7 +67,9 @@ def caller():
         '''
 
         # write new request to the database
-        sql = "INSERT INTO request (date, time, from_lat, from_lng, name, phone, destination, to_lat, to_lng) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        sql = "INSERT INTO request " \
+              "(date, time, from_lat, from_lng, name, phone, destination, to_lat, to_lng) " \
+              "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cur.execute(sql, (date, time, from_lat, from_lng, name, phone, destination, to_lat, to_lng))
 
         conn.commit()

@@ -73,17 +73,9 @@
 <!--MAP PART-->
 <div class="container">
     <div class="row">
-        <div class="col-lg-8" style="min-height: 600px; padding: 20px">
+        <div class="col-lg-8" style="padding: 20px">
             <hr>
             <div id="map"></div>
-
-            <!-- infowindow for displaying chosen place -->
-            <div id="infowindow-content">
-                <span id="place-name" class="title"></span>
-                <br> Place ID <span id="place-id"></span>
-                <br>
-                <span id="place-address"></span>
-            </div>
         </div>
 
         <!-- Sidebar Column -->
@@ -185,6 +177,10 @@
 </div>
 <!-- /.container -->
 <script src="{{ url_for('static', filename='js/driver.js') }}"></script>
+
+<script>
+    geolocate();
+</script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZ2cAeiEseW9hyqSjuJnsgbKS5DLVPvOs&libraries=places&callback=initMap"
         async defer></script>
