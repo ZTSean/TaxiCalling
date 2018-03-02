@@ -48,7 +48,7 @@ def caller():
         # fields in request: name , to_lat , to_lng, from_lng , from_lat, phone, time, date, destination
         name = "anonymous" if request.form.get('name', None) == None or len(request.form.get('name')) == 0 else request.form['name']
         phone = "1111" if request.form.get('phone', None) == None else request.form['phone']
-        to_lat = "22" if request.form.get('to_lat', None) == None else str(round(float(request.form['to_lat']), 8))
+        to_lat = "22" if request.form.get('to_lat', None) == None else round(float(request.form['to_lat']), 8)
         to_lng = "143" if request.form.get('to_lng', None) == None else round(float(request.form['to_lng']), 9)
         from_lng = "143" if request.form.get('from_lng', None) == None else round(float(request.form['from_lng']), 9)
         from_lat = "22" if request.form.get('from_lat', None) == None else round(float(request.form['from_lat']), 8)
