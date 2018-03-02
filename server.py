@@ -7,10 +7,22 @@ app.debug = True
 
 ## initialize database connection settings
 mysql = MySQL()
+
+
+## local mysql db settings
+'''
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'password'
 app.config['MYSQL_DATABASE_DB'] = 'taxicalling'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+'''
+
+## remote cleardb settings
+app.config['MYSQL_DATABASE_USER'] = 'b734081a447cd9'
+app.config['MYSQL_DATABASE_PASSWORD'] = '8a9cc8b7'
+app.config['MYSQL_DATABASE_DB'] = 'heroku_b595805c66ef772'
+app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-iron-east-05.cleardb.net'
+
 mysql.init_app(app)
 
 conn = mysql.connect()
