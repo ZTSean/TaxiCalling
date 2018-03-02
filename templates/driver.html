@@ -100,7 +100,7 @@
                                 Taxi ID
                             </label>
                             <div class="col-sm-9">
-                                <input type="text" readonly class="form-control" id="taxiid" value="1">
+                                <input type="text" readonly class="form-control" id="taxiid">
                             </div>
 
                         </div>
@@ -180,6 +180,8 @@
 
 <script>
     geolocate();
+
+    document.getElementById("taxiid").value = {{ driverid }};
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZ2cAeiEseW9hyqSjuJnsgbKS5DLVPvOs&libraries=places&callback=initMap"

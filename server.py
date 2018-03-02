@@ -1,15 +1,16 @@
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
 from flaskext.mysql import MySQL
+from flask_bcrypt import Bcrypt
 import json
 
 app = Flask(__name__)
 app.debug = True
 
-## initialize database connection settings
+# initialize database connection settings
 mysql = MySQL()
 
 
-## local mysql db settings
+# local mysql db settings
 '''
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'password'
@@ -17,7 +18,7 @@ app.config['MYSQL_DATABASE_DB'] = 'taxicalling'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 '''
 
-## remote cleardb settings
+# remote cleardb settings
 app.config['MYSQL_DATABASE_USER'] = 'b734081a447cd9'
 app.config['MYSQL_DATABASE_PASSWORD'] = '8a9cc8b7'
 app.config['MYSQL_DATABASE_DB'] = 'heroku_b595805c66ef772'
@@ -27,9 +28,10 @@ mysql.init_app(app)
 
 conn = mysql.connect()
 cur = conn.cursor()
+bcrypt = Bcrypt(app)
 
 
-## Insert fake data into database
+# Insert fake data into database
 # sql = "INSERT INTO driver (id, date, time, location_lat, location_lng, name, status) VALUES (%s, %s, %s, %s, %s, %s, %s)"
 # fake data 1: '1', '2018-02-04', '08:41:09', '22.2793113', '114.13650370000005', 'anonymous', '1'
 #  -> INSERT INTO driver (id, date, time, location_lat, location_lng, name, status) VALUES ('1', '2018-02-04', '08:41:09', '22.2793113', '114.13650370000005', 'anonymous', '1');
@@ -39,12 +41,29 @@ cur = conn.cursor()
 #  -> INSERT INTO driver (id, date, time, location_lat, location_lng, name, status) VALUES ('3', '2018-02-04', '08:41:09', '22.2900175', '114.14439979999997', 'anonymous', '2');
 
 
-
 @app.route("/", methods=['GET', 'POST'])
 def welcome():
     if request.method == "POST":
-        print request.form['page']
-        return redirect(url_for(request.form['page']))
+        code = bcrypt.generate_password_hash(request.form['code'])
+
+        if bcrypt.check_password_hash(code, 'driver1'):
+            print "Driver 1 requested"
+            return redirect(url_for("driver", driverid=1))
+        elif bcrypt.check_password_hash(code, 'driver2'):
+            print "Driver 2 requested"
+            return redirect(url_for("driver", driverid=2))
+        elif bcrypt.check_password_hash(code, 'driver3'):
+            print "Driver 3 requested"
+            return redirect(url_for("driver", driverid=3))
+        elif bcrypt.check_password_hash(code, 'customer'):
+            print "Customer requested"
+            return redirect(url_for("caller"))
+        elif bcrypt.check_password_hash(code, 'callcentre'):
+            print "Centre requested"
+            return redirect(url_for("callcentre"))
+
+        
+        return render_template('index.html')
     else:
         return render_template('index.html')
 
@@ -98,10 +117,10 @@ def driver():
     if request.method == "POST":
         print "post"
     else:
-        return render_template('driver.html')
+        return render_template('driver.html', driverid=request.args.get('driverid'))
 
 
-@app.route("/callCentre", methods=['GET', 'POST'])
+@app.route("/callcentre", methods=['GET', 'POST'])
 def callcentre():
     if request.method == "POST":
         print "post"
