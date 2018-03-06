@@ -150,6 +150,8 @@ function geolocate() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition, showError);
     }
+
+    return null;
 }
 
 
@@ -176,6 +178,8 @@ function showPosition(position) {
         document.getElementById('call-taxi-from_x').value + " "
         + document.getElementById('call-taxi-from_y').value
     );
+
+    return geolocation;
 }
 
 function showError(error) {

@@ -1,35 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
-
     <link href="{{ url_for('static', filename='css/map.css') }}" rel="stylesheet">
-
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 </head>
+
 <body>
-
-<!--Page Title-->
-<div class="jumbotron">
-    <div class="container text-center">
-        <h1>DingDing's Calling Taxi: Driver</h1>
-        <p2>Fast, Convenient & Easy</p2>
+    <!--Page Title-->
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>DingDing's Calling Taxi: Driver</h1>
+            <p2>Fast, Convenient & Easy</p2>
+        </div>
     </div>
-</div>
-
-<!-- Page Content -->
-<div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-8">
-        <h id="hour"></h>
-        <script>
+    <!-- Page Content -->
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-8">
+            <h id="hour"></h>
+            <script>
             var timestampnow;
             var text = "";
             var myDate = new Date();
@@ -42,10 +38,10 @@
                 text = "Good night! It's";
             }
             document.getElementById("hour").innerHTML = text;
-        </script>
-        <h id="dateandtime"></h>
-        <script type="text/javascript">
-            Date.prototype.Format = function (fmt) {
+            </script>
+            <h id="dateandtime"></h>
+            <script type="text/javascript">
+            Date.prototype.Format = function(fmt) {
                 var o = {
                     "M+": this.getMonth() + 1, //月份
                     "d+": this.getDate(), //日
@@ -64,27 +60,24 @@
             var time1 = new Date().Format("yyyy-MM-dd hh:mm:ss");
 
             document.getElementById("dateandtime").innerHTML = time1;
-        </script>
-        <h>now.</h>
-    </div>
-    <div class="col-md-3"></div>
-</div>
-
-<!--MAP PART-->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8" style="padding: 20px">
-            <hr>
-            <div id="map"></div>
+            </script>
+            <h>now.</h>
         </div>
-
-        <!-- Sidebar Column -->
-        <div class="col-lg-4">
-            <form id="form-call-taxi" action="" method="post">
-                <div class="card my-4">
-                    <div class="card-body">
-
-                        <!--
+        <div class="col-md-3"></div>
+    </div>
+    <!--MAP PART-->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8" style="padding: 20px">
+                <hr>
+                <div id="map"></div>
+            </div>
+            <!-- Sidebar Column -->
+            <div class="col-lg-4">
+                <form id="form-call-taxi" action="" method="post">
+                    <div class="card my-4">
+                        <div class="card-body">
+                            <!--
                         <div class="form-group">
                             <label>Status</label>
                             <div class="progress">
@@ -95,97 +88,123 @@
                             </div>
                         </div>
                         -->
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">
-                                Taxi ID
-                            </label>
-                            <div class="col-sm-9">
-                                <input type="text" readonly class="form-control" id="taxiid">
-                            </div>
-
-                        </div>
-
-                        <div class="form-group">
-                            <label>Status</label>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="status" id="status_available" value="available" checked>
-                                    Available
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">
+                                    Taxi ID
                                 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" readonly class="form-control" id="taxiid">
+                                </div>
                             </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="status" id="status_hired" value="hired">
-                                    Hired
+                            <div class="form-group">
+                                <label>Status</label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="status" id="status_available" value="available" checked disabled> Available
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="status" id="status_hired" value="hired" disabled> Hired
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="status" id="status_on-call" value="on-call" disabled> On-Call
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Report Frequency</label>
+                                <!--
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="reportfreq" id="report_10_secs" value="10 secs"> 10 secs
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="reportfreq" id="report_30_secs" value="30 secs"> 30 sec
+                                    </label>
+                                </div>
+                                -->
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="reportfreq" id="report_1_min" value="3000" checked> 1 min
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="reportfreq" id="report_3_min" value="5000"> 3 mins
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-6 col-form-label">
+                                    Start Reporting
                                 </label>
+                                <input type="checkbox" class="col-sm-6" checked data-toggle="toggle">
+                                <input type="hidden" id="call-taxi-date" name="date">
+                                <input type="hidden" id="call-taxi-time" name="time">
+                                <input type="hidden" id="call-taxi-location_x" name="location_x">
+                                <input type="hidden" id="call-taxi-location_y" name="location_y">
                             </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="status" id="status_on-call" value="on-call">
-                                    On-Call
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">
+                                    Lat
                                 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" readonly class="form-control" id="lat">
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Report Frequency</label>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="reportfreq" id="report_10_secs" value="10 secs">
-                                    10 secs
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">
+                                    Lng
                                 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" readonly class="form-control" id="lng">
+                                </div>
                             </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="reportfreq" id="report_30_secs" value="30 secs">
-                                    30 sec
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="reportfreq" id="report_1_min" value="1 min">
-                                    1 min
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="reportfreq" id="report_3_mins" value="3 mins" checked>
-                                    3 mins
-                                </label>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <label class="col-sm-6 col-form-label">
-                                Start Reporting
-                            </label>
-                            <input type="checkbox" class="col-sm-6" checked data-toggle="toggle">
-                            <input type="hidden" id="call-taxi-date" name="date">
-                            <input type="hidden" id="call-taxi-time" name="time">
-                            <input type="hidden" id="call-taxi-location_x" name="location_x">
-                            <input type="hidden" id="call-taxi-location_y" name="location_y">
-
                         </div>
                     </div>
-                </div>
-            </form>
-
+                </form>
+            </div>
         </div>
+        <!-- /.row -->
     </div>
-    <!-- /.row -->
-</div>
-<!-- /.container -->
-<script src="{{ url_for('static', filename='js/driver.js') }}"></script>
+    <!-- /.container -->
+    <script src="{{ url_for('static', filename='js/driver.js') }}"></script>
+    <script>
+    var reportFreq = 3000; // default report frequency
+    var reqortHandle;
+    var options = {
+        enableHighAccuracy: false,
+        timeout: 3000,
+        maximumAge: 0
+    };
 
-<script>
-    geolocate();
+    //reportHandle = setInterval(geolocate(), reportFreq);
+    reportHandle = navigator.geolocation.watchPosition(showPosition, showError, options);
+
+    $("#report_1_min").click(function() {
+        reportFreq = document.getElementById('report_1_min').value;
+        //clearInterval(reqortHandle);
+        //reqortHandle = setInterval(geolocate(), reportFreq);
+        options.timeout = reportFreq;
+        navigator.geolocation.clearWatch(reportHandle);
+        reportHandle = navigator.geolocation.watchPosition(showPosition, showError, options);
+    });
+
+    $("#report_3_min").click(function() {
+        reportFreq = document.getElementById('report_3_min').value;
+        options.timeout = reportFreq;
+        navigator.geolocation.clearWatch(reportHandle);
+        reportHandle = navigator.geolocation.watchPosition(showPosition, showError, options);
+    });
 
     document.getElementById("taxiid").value = {{ driverid }};
-</script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZ2cAeiEseW9hyqSjuJnsgbKS5DLVPvOs&libraries=places&callback=initMap"
-        async defer></script>
-
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZ2cAeiEseW9hyqSjuJnsgbKS5DLVPvOs&libraries=places&callback=initMap" async defer></script>
 </body>
+
 </html>

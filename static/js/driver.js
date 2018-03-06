@@ -11,10 +11,12 @@ var mapId = "map";
 var map;
 var curLocationMarker;
 var infowindow;
+var count = 0;
+
 
 function initMap() {
     map = new google.maps.Map(document.getElementById(mapId), {
-        center: {lat: 22.2823571, lng: 114.13887319999999},
+        center: { lat: 22.2823571, lng: 114.13887319999999 },
         zoom: 15
     });
 
@@ -25,7 +27,7 @@ function initMap() {
         map: map
     });
 
-    curLocationMarker.addListener('click', function () {
+    curLocationMarker.addListener('click', function() {
         infowindow.open(map, curLocationMarker);
     });
 }
@@ -33,12 +35,15 @@ function initMap() {
 function geolocate() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+        console.log("Browser does support geolocation.");
     }
 }
 
 function showPosition(position) {
     curLocationMarker.setVisible(false);
     infowindow.close();
+    count += 1;
 
     var geolocation = {
         lat: position.coords.latitude,
@@ -56,6 +61,12 @@ function showPosition(position) {
 
     infowindow.setContent("<div>Your current location: <div>" + geolocation.lat + " " + geolocation.lng);
     infowindow.open(map, curLocationMarker);
+
+    // submit to the database
+    document.getElementById("lat").value = geolocation.lat.toFixed(4) + " " + count;
+    document.getElementById("lng").value = geolocation.lng.toFixed(4) + " " + count;
+
+    console.log("Your current location: " + geolocation.lat + " " + geolocation.lng);
 }
 
 function showError(error) {
@@ -75,3 +86,4 @@ function showError(error) {
             break;
     }
 }
+

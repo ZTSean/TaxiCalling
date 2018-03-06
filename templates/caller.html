@@ -156,7 +156,7 @@
                     <a href="#" id="btn-call-taxi" class="btn btn-primary btn-block">CALL A TAXI</a>
                 </div>
                 <div class="col-lg-6">
-                    <a href="#" class="btn btn-danger btn-block">CANCEL</a>
+                    <a href="#" id="btn-clear" class="btn btn-danger btn-block">CLEAR</a>
                 </div>
             </div>
 
@@ -168,16 +168,14 @@
 <script src="{{ url_for('static', filename='js/map.js') }}"></script>
 
 <script>
-    // fill information of current location
-    geolocate();
+    var reportFreq = 1000; // default report frequency
+    var reqortHandle = setInterval(geolocate(), reportFreq);
 
     $("#btn-call-taxi").click(function () {
         // validate the input in the form
 
 
-        // get current time
-        var now = new Date();
-        var date = now.toISOString().slice(0, 19).replace('T', ' ').split(" ");
+        document.getElementById('btn-clear')
 
 
         document.getElementById('call-taxi-date').value = date[0];
@@ -198,6 +196,14 @@
 
 
         $("#form-call-taxi").submit();
+    });
+
+    $("#btn-clear").click(function () {
+        // validate the input in the form
+
+        document.getElementById('form-call-taxi').reset();
+
+        console.log("Form cleared!");
     });
 </script>
 
