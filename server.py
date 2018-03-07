@@ -1,9 +1,11 @@
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
 from flaskext.mysql import MySQL
 from flask_bcrypt import Bcrypt
+from flask_sslify import SSLify
 import json
 
 app = Flask(__name__)
+sslify = SSLify(app)
 app.debug = True
 
 # initialize database connection settings
