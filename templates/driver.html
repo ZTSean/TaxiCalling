@@ -130,12 +130,12 @@
                                 -->
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="reportfreq" id="report_1_min" value="3000" checked> 1 min
+                                        <input type="radio" name="reportfreq" id="report_1_min" value="1000" checked> 1 min
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="reportfreq" id="report_3_min" value="5000"> 3 mins
+                                        <input type="radio" name="reportfreq" id="report_3_min" value="3000"> 3 mins
                                     </label>
                                 </div>
                             </div>
@@ -175,31 +175,22 @@
     <!-- /.container -->
     <script src="{{ url_for('static', filename='js/driver.js') }}"></script>
     <script>
-    var reportFreq = 3000; // default report frequency
+    var reportFreq = 1000; // default report frequency
     var reqortHandle;
-    var options = {
-        enableHighAccuracy: false,
-        timeout: 3000,
-        maximumAge: 0
-    };
 
     //reportHandle = setInterval(geolocate(), reportFreq);
-    reportHandle = navigator.geolocation.watchPosition(showPosition, showError, options);
+    reportHandle = setInterval(geolocate(), reportFreq)
 
     $("#report_1_min").click(function() {
         reportFreq = document.getElementById('report_1_min').value;
-        //clearInterval(reqortHandle);
-        //reqortHandle = setInterval(geolocate(), reportFreq);
-        options.timeout = reportFreq;
-        navigator.geolocation.clearWatch(reportHandle);
-        reportHandle = navigator.geolocation.watchPosition(showPosition, showError, options);
+        clearInterval(reqortHandle);
+        reqortHandle = setInterval(geolocate(), reportFreq);
     });
 
     $("#report_3_min").click(function() {
         reportFreq = document.getElementById('report_3_min').value;
-        options.timeout = reportFreq;
-        navigator.geolocation.clearWatch(reportHandle);
-        reportHandle = navigator.geolocation.watchPosition(showPosition, showError, options);
+        clearInterval(reqortHandle);
+        reqortHandle = setInterval(geolocate(), reportFreq);
     });
 
     document.getElementById("taxiid").value = {{ driverid }};
