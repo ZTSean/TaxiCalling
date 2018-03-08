@@ -63,8 +63,10 @@ function showPosition(position) {
     infowindow.open(map, curLocationMarker);
 
     // submit to the database
-    document.getElementById("lat").value = geolocation.lat.toFixed(4) + " " + count;
-    document.getElementById("lng").value = geolocation.lng.toFixed(4) + " " + count;
+    //document.getElementById("lat").value = geolocation.lat.toFixed(7) + " " + count;
+    //document.getElementById("lng").value = geolocation.lng.toFixed(7) + " " + count;
+    document.getElementById("lat").value = geolocation.lat.toFixed(7);
+    document.getElementById("lng").value = geolocation.lng.toFixed(7);
 
     console.log("Your current location: " + geolocation.lat + " " + geolocation.lng);
 }

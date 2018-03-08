@@ -70,7 +70,10 @@
         <div class="row">
             <div class="col-lg-8" style="padding: 20px">
                 <hr>
-                <div id="map"></div>
+                <div class="google-maps">
+                    <div id="map"></div>
+                </div>
+                
             </div>
             <!-- Sidebar Column -->
             <div class="col-lg-4">
@@ -88,8 +91,8 @@
                             </div>
                         </div>
                         -->
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">
+                            <div class="form-group row"> 
+                                <label class="col-sm-3 col-form-label text-uppercase font-weight-bold">
                                     Taxi ID
                                 </label>
                                 <div class="col-sm-9">
@@ -97,7 +100,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Status</label>
+                                <label class="text-uppercase font-weight-bold">Status</label>
                                 <div class="radio">
                                     <label>
                                         <input type="radio" name="status" id="status_available" value="available" checked disabled> Available
@@ -115,7 +118,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Report Frequency</label>
+                                <label class="text-uppercase font-weight-bold">Report Frequency</label>
                                 <!--
                                 <div class="radio">
                                     <label>
@@ -130,20 +133,20 @@
                                 -->
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="reportfreq" id="report_1_min" value="1000" checked> 1 min
+                                        <input type="radio" name="reportfreq" id="report_1_min" value="10000" checked> 1 min
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="reportfreq" id="report_3_min" value="3000"> 3 mins
+                                        <input type="radio" name="reportfreq" id="report_3_min" value="30000"> 3 mins
                                     </label>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-6 col-form-label">
-                                    Start Reporting
+                                <label class="col-sm-6 col-6 col-form-label text-uppercase font-weight-bold">
+                                    Reporting
                                 </label>
-                                <input type="checkbox" class="col-sm-6" checked data-toggle="toggle">
+                                <input type="checkbox" class="col-6 col-sm-6" checked data-toggle="toggle">
                                 <input type="hidden" id="call-taxi-date" name="date">
                                 <input type="hidden" id="call-taxi-time" name="time">
                                 <input type="hidden" id="call-taxi-location_x" name="location_x">
@@ -175,22 +178,23 @@
     <!-- /.container -->
     <script src="{{ url_for('static', filename='js/driver.js') }}"></script>
     <script>
-    var reportFreq = 1000; // default report frequency
+    var reportFreq = 10000; // default report frequency
     var reqortHandle;
 
     //reportHandle = setInterval(geolocate(), reportFreq);
-    reportHandle = setInterval(geolocate(), reportFreq)
+    geolocate();
+    reportHandle = setInterval(geolocate, reportFreq)
 
     $("#report_1_min").click(function() {
         reportFreq = document.getElementById('report_1_min').value;
         clearInterval(reqortHandle);
-        reqortHandle = setInterval(geolocate(), reportFreq);
+        reqortHandle = setInterval(geolocate, reportFreq);
     });
 
     $("#report_3_min").click(function() {
         reportFreq = document.getElementById('report_3_min').value;
         clearInterval(reqortHandle);
-        reqortHandle = setInterval(geolocate(), reportFreq);
+        reqortHandle = setInterval(geolocate, reportFreq);
     });
 
     document.getElementById("taxiid").value = {{ driverid }};
