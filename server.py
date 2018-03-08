@@ -6,7 +6,7 @@ import json
 
 app = Flask(__name__)
 sslify = SSLify(app)
-app.debug = False
+app.debug = True
 
 # initialize database connection settings
 mysql = MySQL()
