@@ -38,6 +38,7 @@ function geolocate() {
     } else {
         console.log("Browser does support geolocation.");
     }
+
 }
 
 function showPosition(position) {
@@ -62,13 +63,69 @@ function showPosition(position) {
     infowindow.setContent("<div>Your current location: <div>" + geolocation.lat + " " + geolocation.lng);
     infowindow.open(map, curLocationMarker);
 
-    // submit to the database
-    //document.getElementById("lat").value = geolocation.lat.toFixed(7) + " " + count;
-    //document.getElementById("lng").value = geolocation.lng.toFixed(7) + " " + count;
-    document.getElementById("lat").value = geolocation.lat.toFixed(7);
-    document.getElementById("lng").value = geolocation.lng.toFixed(7);
+    
+    
 
     console.log("Your current location: " + geolocation.lat + " " + geolocation.lng);
+    console.log(document.getElementById("driver-location_lat").value != geolocation.lat);
+
+    
+    // if the location data is not consistent with previous one 
+    if (document.getElementById("driver-location_lat").value != geolocation.lat ||
+    document.getElementById("driver-location_lng").value != geolocation.lng ) {
+        document.getElementById("driver-location_lat").value == geolocation.lat;
+        document.getElementById("driver-location_lng").value == geolocation.lng;
+
+        document.getElementById("lat").value = geolocation.lat.toFixed(7);
+        document.getElementById("lng").value = geolocation.lng.toFixed(7);
+        //document.getElementById("lat").value = geolocation.lat.toFixed(7) + " " + count;
+        //document.getElementById("lng").value = geolocation.lng.toFixed(7) + " " + count;
+        
+        console.log("information need to update: submit form");
+        
+        // --------------------------------------------------
+        //submitForm();
+
+        // filling the form
+        var now = new Date();
+        var date = now.toISOString().slice(0, 19).replace('T', ' ').split(" ");
+
+        // $('#form-driver-status').submit(function(e) {
+        //     e.preventDefault();
+
+            console.log($('form').serialize());
+            $.ajax({
+              url: window.location.pathname, // form action url
+              type: 'POST', // form submit method get/post
+              dataType: 'html', // request type html/json/xml
+              async:false,
+              data: $('#form-driver-status').serialize(), // serialize form data 
+              success: function(data) {
+                console.log("Success send real time location data to the server...");
+              },
+              error: function(e) {
+                console.log(e)
+              }
+            });
+        // });
+
+        // refill the form
+        document.getElementById("driver-date").value = date[0];
+        document.getElementById("driver-time").value = date[1];
+        document.getElementById("driver-location_lat").value = geolocation.lat;
+        document.getElementById("driver-location_lng").value = geolocation.lng;
+        document.getElementById("lat").value = geolocation.lat.toFixed(7);
+        document.getElementById("lng").value = geolocation.lng.toFixed(7);
+
+        if (reportFreq == 30000) document.getElementById("report_3_min") == true;
+        if (reportFreq == 10000) document.getElementById("report_1_min") == true;
+        //document.getElementById("");
+    }
+    
+}
+
+function submitForm() {
+    
 }
 
 function showError(error) {
@@ -88,4 +145,3 @@ function showError(error) {
             break;
     }
 }
-

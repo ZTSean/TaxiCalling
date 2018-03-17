@@ -50,13 +50,13 @@ def welcome():
 
         if bcrypt.check_password_hash(code, 'driver1'):
             print "Driver 1 requested"
-            return redirect(url_for("driver", driverid=1))
+            return redirect(url_for("driver", driverid=1, isFirst=1))
         elif bcrypt.check_password_hash(code, 'driver2'):
             print "Driver 2 requested"
-            return redirect(url_for("driver", driverid=2))
+            return redirect(url_for("driver", driverid=2, isFirst=1))
         elif bcrypt.check_password_hash(code, 'driver3'):
             print "Driver 3 requested"
-            return redirect(url_for("driver", driverid=3))
+            return redirect(url_for("driver", driverid=3, isFirst=1))
         elif bcrypt.check_password_hash(code, 'customer'):
             print "Customer requested"
             return redirect(url_for("caller"))
@@ -65,7 +65,7 @@ def welcome():
             return redirect(url_for("callcentre"))
 
         
-        return render_template('index.html')
+        #return render_template('index.html')
     else:
         return render_template('index.html')
 
@@ -81,10 +81,10 @@ def caller():
         # fields in request: name , to_lat , to_lng, from_lng , from_lat, phone, time, date, destination
         name = "anonymous" if request.form.get('name', None) == None or len(request.form.get('name')) == 0 else request.form['name']
         phone = "1111" if request.form.get('phone', None) == None else request.form['phone']
-        to_lat = "22" if request.form.get('to_lat', None) == None else round(float(request.form['to_lat']), 8)
-        to_lng = "143" if request.form.get('to_lng', None) == None else round(float(request.form['to_lng']), 9)
-        from_lng = "143" if request.form.get('from_lng', None) == None else round(float(request.form['from_lng']), 9)
-        from_lat = "22" if request.form.get('from_lat', None) == None else round(float(request.form['from_lat']), 8)
+        to_lat = 22 if request.form.get('to_lat', None) == None else round(float(request.form['to_lat']), 8)
+        to_lng = 143 if request.form.get('to_lng', None) == None else round(float(request.form['to_lng']), 9)
+        from_lng = 143 if request.form.get('from_lng', None) == None else round(float(request.form['from_lng']), 9)
+        from_lat = 22 if request.form.get('from_lat', None) == None else round(float(request.form['from_lat']), 8)
         time = "00:00:00" if request.form.get('time', None) == None else request.form['time']
         date = "2018-02-05" if request.form.get('date', None) == None else request.form['date']
         destination = "1111" if request.form.get('destination', None) == None else request.form['destination']
@@ -101,6 +101,9 @@ def caller():
             print "no data inside"
         '''
 
+        # pull all driver information from database
+        availableDriverSQL = "SELECT * FROM driver WHERE"
+
         # write new request to the database
         sql = "INSERT INTO request " \
               "(date, time, from_lat, from_lng, name, phone, destination, to_lat, to_lng) " \
@@ -111,15 +114,52 @@ def caller():
 
         return render_template('caller.html')
     else:
-        return render_template('caller.html')
+        return render_template('index.html')
 
 
 @app.route("/driver", methods=['GET', 'POST'])
 def driver():
     if request.method == "POST":
-        print "post"
+        print "--------------"
+
+        id = request.args.get('driverid')
+
+        if id == None:
+            id = request.form.get('driverid')
+            print "[Update Request from driver " + str(id) + "]"
+
+            for key, value in request.form.iteritems():
+                print key, value, len(value)
+
+            # validate each fields in the request form
+            # fields in request: name , to_lat , to_lng, from_lng , from_lat, phone, time, date, destination
+            name = "anonymous" if request.form.get('name', None) == None or len(request.form.get('name')) == 0 else request.form['name']
+            status = "1" if request.form.get('status', None) == None else request.form['status']
+            location_lat = "22.0" if request.form.get('location_lat', None) == None or len(request.form.get('location_lat')) == 0 else str(round(float(request.form['location_lat']), 8))
+            location_lng = "143.0" if request.form.get('location_lng', None) == None or len(request.form.get('location_lng')) == 0 else str(round(float(request.form['location_lng']), 9))
+            time = "00:00:00" if request.form.get('time', None) == None else request.form['time']
+            date = "2018-02-05" if request.form.get('date', None) == None else request.form['date']
+
+
+
+            sql = "INSERT INTO driver " \
+                  "(id, date, time, location_lat, location_lng, name, status) " \
+                  "VALUES (%s, %s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE " \
+                  "date = VALUES (date), " \
+                  "time = VALUES (time), " \
+                  "location_lat = VALUES (location_lat), " \
+                  "location_lng = VALUES (location_lng), " \
+                  "name = VALUES (name), " \
+                  "status = VALUES (status)"
+
+            cur.execute(sql, (id, date, time, location_lat, location_lng, name, status))
+            conn.commit()
+        else:
+            print "[Initial Request]: no need to update"
+
+        return render_template('driver.html', driverid=id)
     else:
-        return render_template('driver.html', driverid=request.args.get('driverid'))
+        return render_template('index.html')
 
 
 @app.route("/callcentre", methods=['GET', 'POST'])

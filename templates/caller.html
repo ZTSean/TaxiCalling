@@ -176,8 +176,9 @@
     $("#btn-call-taxi").click(function () {
         // validate the input in the form
 
-
-        document.getElementById('btn-clear')
+        // get current time
+-        var now = new Date();
+-        var date = now.toISOString().slice(0, 19).replace('T', ' ').split(" ");
 
 
         document.getElementById('call-taxi-date').value = date[0];

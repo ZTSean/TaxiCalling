@@ -77,7 +77,7 @@
             </div>
             <!-- Sidebar Column -->
             <div class="col-lg-4">
-                <form id="form-call-taxi" action="" method="post">
+                <form id="form-driver-status" action="" method="post">
                     <div class="card my-4">
                         <div class="card-body">
                             <!--
@@ -92,28 +92,28 @@
                         </div>
                         -->
                             <div class="form-group row"> 
-                                <label class="col-sm-3 col-form-label text-uppercase font-weight-bold">
+                                <label class="col-sm-3 col-3 col-form-label text-uppercase font-weight-bold">
                                     Taxi ID
                                 </label>
-                                <div class="col-sm-9">
-                                    <input type="text" readonly class="form-control" id="taxiid">
+                                <div class="col-sm-9 col-9">
+                                    <input type="text" name="driverid" readonly class="form-control" id="taxiid">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="text-uppercase font-weight-bold">Status</label>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="status" id="status_available" value="available" checked disabled> Available
+                                        <input type="radio" name="status" id="status_available" value="1" checked readonly=""> Available
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="status" id="status_hired" value="hired" disabled> Hired
+                                        <input type="radio" name="status" id="status_hired" value="2" readonly=""> Hired
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="status" id="status_on-call" value="on-call" disabled> On-Call
+                                        <input type="radio" name="status" id="status_on-call" value="3" readonly=""> On-Call
                                     </label>
                                 </div>
                             </div>
@@ -133,12 +133,12 @@
                                 -->
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="reportfreq" id="report_1_min" value="10000" checked> 1 min
+                                        <input type="radio" name="reportfreq" id="report_1_min" value="5000" checked> 1 min
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="reportfreq" id="report_3_min" value="30000"> 3 mins
+                                        <input type="radio" name="reportfreq" id="report_3_min" value="10000"> 3 mins
                                     </label>
                                 </div>
                             </div>
@@ -146,25 +146,25 @@
                                 <label class="col-sm-6 col-6 col-form-label text-uppercase font-weight-bold">
                                     Reporting
                                 </label>
-                                <input type="checkbox" class="col-6 col-sm-6" checked data-toggle="toggle">
-                                <input type="hidden" id="call-taxi-date" name="date">
-                                <input type="hidden" id="call-taxi-time" name="time">
-                                <input type="hidden" id="call-taxi-location_x" name="location_x">
-                                <input type="hidden" id="call-taxi-location_y" name="location_y">
+                                <input type="checkbox" id="is-reporting" class="col-6 col-sm-6" checked data-toggle="toggle">
+                                <input type="hidden" id="driver-date" name="date">
+                                <input type="hidden" id="driver-time" name="time">
+                                <input type="hidden" id="driver-location_lat" name="location_lat">
+                                <input type="hidden" id="driver-location_lng" name="location_lng">
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">
+                                <label class="col-sm-3 col-3 col-form-label">
                                     Lat
                                 </label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-9 col-9">
                                     <input type="text" readonly class="form-control" id="lat">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">
+                                <label class="col-sm-3 col-3 col-form-label">
                                     Lng
                                 </label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-9 col-9">
                                     <input type="text" readonly class="form-control" id="lng">
                                 </div>
                             </div>
@@ -178,11 +178,10 @@
     <!-- /.container -->
     <script src="{{ url_for('static', filename='js/driver.js') }}"></script>
     <script>
-    var reportFreq = 10000; // default report frequency
+    var reportFreq = 5000; // default report frequency
     var reqortHandle;
 
-    //reportHandle = setInterval(geolocate(), reportFreq);
-    geolocate();
+    //geolocate();
     reportHandle = setInterval(geolocate, reportFreq)
 
     $("#report_1_min").click(function() {
@@ -198,6 +197,18 @@
     });
 
     document.getElementById("taxiid").value = {{ driverid }};
+
+    $('#is-reporting').change(function() {
+        if ($(this).prop('checked')) {
+            reqortHandle = setInterval(geolocate, reportFreq);
+            console.log("restart reporting!");
+        } else {
+            // turn off reporting
+            clearInterval(reportHandle);
+            console.log("stop reporting!");
+        }
+    })
+
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZ2cAeiEseW9hyqSjuJnsgbKS5DLVPvOs&libraries=places&callback=initMap" async defer></script>
 </body>
