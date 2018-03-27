@@ -63,9 +63,6 @@ function showPosition(position) {
     infowindow.setContent("<div>Your current location: <div>" + geolocation.lat + " " + geolocation.lng);
     infowindow.open(map, curLocationMarker);
 
-    
-    
-
     console.log("Your current location: " + geolocation.lat + " " + geolocation.lng);
     console.log(document.getElementById("driver-location_lat").value != geolocation.lat);
 
@@ -90,24 +87,20 @@ function showPosition(position) {
         var now = new Date();
         var date = now.toISOString().slice(0, 19).replace('T', ' ').split(" ");
 
-        // $('#form-driver-status').submit(function(e) {
-        //     e.preventDefault();
-
-            console.log($('form').serialize());
-            $.ajax({
-              url: window.location.pathname, // form action url
-              type: 'POST', // form submit method get/post
-              dataType: 'html', // request type html/json/xml
-              async:false,
-              data: $('#form-driver-status').serialize(), // serialize form data 
-              success: function(data) {
+        console.log($('form').serialize());
+        $.ajax({
+            url: window.location.pathname, // form action url
+            type: 'POST', // form submit method get/post
+            dataType: 'html', // request type html/json/xml
+            async:false,
+            data: $('#form-driver-status').serialize(), // serialize form data 
+            success: function(data) {
                 console.log("Success send real time location data to the server...");
-              },
-              error: function(e) {
+            },
+            error: function(e) {
                 console.log(e)
-              }
-            });
-        // });
+            }
+        });
 
         // refill the form
         document.getElementById("driver-date").value = date[0];

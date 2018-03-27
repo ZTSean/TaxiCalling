@@ -3,6 +3,7 @@ from flaskext.mysql import MySQL
 from flask_bcrypt import Bcrypt
 from flask_sslify import SSLify
 import json
+import requests
 
 app = Flask(__name__)
 sslify = SSLify(app)
@@ -29,7 +30,7 @@ app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-iron-east-05.cleardb.net'
 mysql.init_app(app)
 
 conn = mysql.connect()
-cur = conn.cursor()
+
 bcrypt = Bcrypt(app)
 
 
@@ -59,13 +60,13 @@ def welcome():
             return redirect(url_for("driver", driverid=3, isFirst=1))
         elif bcrypt.check_password_hash(code, 'customer'):
             print "Customer requested"
-            return redirect(url_for("caller"))
+            return redirect(url_for("caller", requesttype=1))
         elif bcrypt.check_password_hash(code, 'callcentre'):
             print "Centre requested"
             return redirect(url_for("callcentre"))
 
         
-        #return render_template('index.html')
+        return render_template('index.html')
     else:
         return render_template('index.html')
 
@@ -77,40 +78,79 @@ def caller():
         for key, value in request.form.iteritems():
             print key, value, len(value)
 
-        # validate each fields in the request form
-        # fields in request: name , to_lat , to_lng, from_lng , from_lat, phone, time, date, destination
-        name = "anonymous" if request.form.get('name', None) == None or len(request.form.get('name')) == 0 else request.form['name']
-        phone = "1111" if request.form.get('phone', None) == None else request.form['phone']
-        to_lat = 22 if request.form.get('to_lat', None) == None else round(float(request.form['to_lat']), 8)
-        to_lng = 143 if request.form.get('to_lng', None) == None else round(float(request.form['to_lng']), 9)
-        from_lng = 143 if request.form.get('from_lng', None) == None else round(float(request.form['from_lng']), 9)
-        from_lat = 22 if request.form.get('from_lat', None) == None else round(float(request.form['from_lat']), 8)
-        time = "00:00:00" if request.form.get('time', None) == None else request.form['time']
-        date = "2018-02-05" if request.form.get('date', None) == None else request.form['date']
-        destination = "1111" if request.form.get('destination', None) == None else request.form['destination']
-
-        print ""
-        print from_lat, from_lng, to_lat, to_lng
-        '''
-        cur.execute("SELECT id FROM request ORDER BY id DESC");
-        row = cur.fetchone()
-        id = 0
-        if row is not None:
-            id = 
+        if request.args.get('request-type') != None:
+            return render_template('caller.html')
         else:
-            print "no data inside"
-        '''
+            ## call a taxi
+            print "### Process taxi request ..."
+            
+            # validate each fields in the request form
+            # fields in request: name , to_lat , to_lng, from_lng , from_lat, phone, time, date, destination
+            name = "anonymous" if request.form.get('name', None) == None or len(request.form.get('name')) == 0 else request.form['name']
+            phone = "1111" if request.form.get('phone', None) == None else request.form['phone']
+            to_lat = "22.0" if request.form.get('to_lat', None) == None or len(request.form.get('to_lat')) == 0 else str(round(float(request.form['to_lat']), 8))
+            to_lng = "143.0" if request.form.get('to_lng', None) == None or len(request.form.get('to_lng')) == 0 else str(round(float(request.form['to_lng']), 9))
+            from_lat = "22.0" if request.form.get('from_lat', None) == None or len(request.form.get('from_lat')) == 0 else str(round(float(request.form['from_lat']), 8))
+            from_lng = "143.0" if request.form.get('from_lng', None) == None or len(request.form.get('from_lng')) == 0 else str(round(float(request.form['from_lng']), 9))
+            time = "00:00:00" if request.form.get('time', None) == None else request.form['time']
+            date = "2018-02-05" if request.form.get('date', None) == None else request.form['date']
+            destination = "1111" if request.form.get('destination', None) == None else request.form['destination']
 
-        # pull all driver information from database
-        availableDriverSQL = "SELECT * FROM driver WHERE"
+            print ""
+            print from_lat, from_lng, to_lat, to_lng
+            '''
+            cur.execute("SELECT id FROM request ORDER BY id DESC");
+            row = cur.fetchone()
+            id = 0
+            if row is not None:
+                id = 
+            else:
+                print "no data inside"
+            '''
 
-        # write new request to the database
-        sql = "INSERT INTO request " \
-              "(date, time, from_lat, from_lng, name, phone, destination, to_lat, to_lng) " \
-              "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        cur.execute(sql, (date, time, from_lat, from_lng, name, phone, destination, to_lat, to_lng))
 
-        conn.commit()
+            ### test use from_lat, from_lng
+            from_lat = 33.8179361
+            from_lng = -84.45219920000001
+
+            # pull all driver information from database ========================================
+            cur = conn.cursor()
+            availableDriverSQL = 'SELECT * FROM driver WHERE status = 1;'
+            cur.execute(availableDriverSQL)  # Get address details by ID
+
+            driver_location_row = ""
+            for row in cur:
+                # (1, datetime.date(2018, 2, 4), datetime.timedelta(0, 31269), Decimal( &  # 39;22.27931130&#39;), Decimal(&#39;114.13650370&#39;), u&#39;anonymous&#39;, 1)
+                driver_location_row += ("%s,%s|" % (row[3], row[4]))
+
+            driver_location_row = driver_location_row.rstrip('|')
+            print "All current available driver location:" + driver_location_row
+
+            # send request to google map server to get the time cost to the customer
+            maps_key = 'AIzaSyDZ2cAeiEseW9hyqSjuJnsgbKS5DLVPvOs'
+            distance_matrix_url = 'https://maps.googleapis.com/maps/api/distancematrix/json'
+
+            params = {
+                'origins': driver_location_row,
+                'destination': "%s,%s" % (from_lat, from_lng),
+                'key': maps_key
+            }
+
+
+            req = requests.get(distance_matrix_url, params = params);
+            res = req.json()
+
+            for key, value in res.iteritems():
+                print key, value
+
+            # write new request to the database =================================================
+            sql = "INSERT INTO request " \
+                  "(date, time, from_lat, from_lng, name, phone, destination, to_lat, to_lng) " \
+                  "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            #cur.execute(sql, (date, time, from_lat, from_lng, name, phone, destination, to_lat, to_lng))
+
+            #conn.commit()
+            cur.close()
 
         return render_template('caller.html')
     else:
@@ -123,6 +163,7 @@ def driver():
         print "--------------"
 
         id = request.args.get('driverid')
+        cur = conn.cursor()
 
         if id == None:
             id = request.form.get('driverid')
@@ -155,8 +196,17 @@ def driver():
             cur.execute(sql, (id, date, time, location_lat, location_lng, name, status))
             conn.commit()
         else:
+            '''
+            driver_info_sql = "SELECT * FROM driver WHERE id = %s;"
+            print driver_info_sql
+            cur.execute(driver_info_sql, (id,))
+
+            row = cur.fetchone()
+            '''
+
             print "[Initial Request]: no need to update"
 
+        cur.close()
         return render_template('driver.html', driverid=id)
     else:
         return render_template('index.html')
@@ -168,6 +218,7 @@ def callcentre():
         print "post"
     else:
         # retrieve all driver data from driver table
+        cur = conn.cursor()
         cur.execute("SELECT * FROM driver;")  # Get address details by ID
 
         driverdata = []
@@ -205,6 +256,7 @@ def callcentre():
             formattedRow['to_lng'] = float(row[9])
             callerdata.append(formattedRow)
 
+        cur.close()
         return render_template('callcentre.html', driverdata=json.dumps(driverdata), callerdata=json.dumps(callerdata))
 
 

@@ -170,16 +170,13 @@
 <script src="{{ url_for('static', filename='js/map.js') }}"></script>
 
 <script>
-    var reportFreq = 1000; // default report frequency
+    var reportFreq = 30000; // default customer location report frequency
     var reqortHandle = setInterval(geolocate(), reportFreq);
 
     $("#btn-call-taxi").click(function () {
-        // validate the input in the form
-
         // get current time
--        var now = new Date();
--        var date = now.toISOString().slice(0, 19).replace('T', ' ').split(" ");
-
+        let now = new Date();
+        let date = now.toISOString().slice(0, 19).replace('T', ' ').split(" ");
 
         document.getElementById('call-taxi-date').value = date[0];
         document.getElementById('call-taxi-time').value = date[1];
@@ -194,11 +191,21 @@
         console.log(document.getElementById('call-taxi-to_x').value);
         console.log(document.getElementById('call-taxi-to_y').value);
 
-        // !!!!! we need to validate the input
-        // if name is empty
+        console.log($('form').serialize());
+        $.ajax({
+            url: window.location.pathname, // form action url
+            type: 'POST', // form submit method get/post
+            dataType: 'html', // request type html/json/xml
+            async:false,
+            data: $('form').serialize(), // serialize form data 
+            success: function(data) {
+                console.log("Success send call a taxi request to the server...");
+            },
+            error: function(e) {
+                console.log(e)
+            }
+        });
 
-
-        $("#form-call-taxi").submit();
     });
 
     $("#btn-clear").click(function () {

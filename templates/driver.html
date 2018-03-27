@@ -103,17 +103,17 @@
                                 <label class="text-uppercase font-weight-bold">Status</label>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="status" id="status_available" value="1" checked readonly=""> Available
+                                        <input type="radio" id="status_available" value="1" checked disabled> Available
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="status" id="status_hired" value="2" readonly=""> Hired
+                                        <input type="radio" id="status_hired" value="2" disabled> Hired
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="status" id="status_on-call" value="3" readonly=""> On-Call
+                                        <input type="radio" id="status_on-call" value="3" disabled> On-Call
                                     </label>
                                 </div>
                             </div>
@@ -147,6 +147,7 @@
                                     Reporting
                                 </label>
                                 <input type="checkbox" id="is-reporting" class="col-6 col-sm-6" checked data-toggle="toggle">
+                                <input type="hidden" id="driver-status" name="status" value="1">
                                 <input type="hidden" id="driver-date" name="date">
                                 <input type="hidden" id="driver-time" name="time">
                                 <input type="hidden" id="driver-location_lat" name="location_lat">
@@ -208,6 +209,18 @@
             console.log("stop reporting!");
         }
     })
+
+    document.getElementById("status_on-call").addEventListener("change", function() {
+        $("#driver-status").value = 3;
+    });
+
+    document.getElementById("status_available").addEventListener("change", function() {
+        $("#driver-status").value = 1;
+    });
+
+    document.getElementById("status_hired").addEventListener("change", function() {
+        $("#driver-status").value = 2;
+    });
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZ2cAeiEseW9hyqSjuJnsgbKS5DLVPvOs&libraries=places&callback=initMap" async defer></script>
