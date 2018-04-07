@@ -355,7 +355,11 @@ def pickup ():
     print "--------------------------------------------------------"
     print "---------------- Request params ------------------------"
     # check whether the driver is on call
-    id = int(request.form.get('driverid'))
+    data = request.get_json()
+    for key, value in data.iteritems():
+        print key, value
+
+    id = int(data['driverid'])
 
     if id == 1 and driver1status == 2:
         print "Success assigned driver 1 for hired..."
@@ -385,7 +389,11 @@ def end_trip ():
     print "---------------- Request params ------------------------"
 
     # check whether the driver is hired
-    id = int(request.get('driverid'))
+    data = request.get_json()
+    for key, value in data.iteritems():
+        print key, value
+
+    id = int(data['driverid'])
     if id == 1 and driver1status == 3:
         driver1status = 1 # set driver to available
         print "Success assigned driver 1 for end trip..."

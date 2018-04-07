@@ -285,10 +285,10 @@
                 feedback = JSON.parse(data);
                 console.log(feedback.status == "INVALID_REQUEST");
                 if (feedback.status == "INVALID_REQUEST") {
-                    error_message = "Invalid Request:<br />";
+                    error_message = feedback.error;
 
                     $("#modal-feedback-title").html("Invalid Request");
-                    $("#modal-feedback").html("You are not on-call!");
+                    $("#modal-feedback").html(error_message);
                     $("#myModal").modal("show");
 
 
@@ -333,11 +333,17 @@
                 feedback = JSON.parse(data);
                 console.log(feedback.status == "INVALID_REQUEST");
                 if (feedback.status == "INVALID_REQUEST") {
-                    error_message = "Invalid Request:<br />";
+                    error_message = feedback.error;
 
                     $("#modal-feedback-title").html("Invalid Request");
-                    $("#modal-feedback").html("You are not hired!");
+                    $("#modal-feedback").html(error_message);
                     $("#myModal").modal("show");
+
+                } else if (feedback.status == "OK") {
+                    $("#modal-feedback-title").html("Congrats!");
+                    $("#modal-feedback").html("Your trip has been ended!");
+                    $("#myModal").modal("show");
+
 
                     // hide the button
                     $("#btn-pick-up").hide();
@@ -347,12 +353,6 @@
                     $('#status_available').prop("checked", true)
                     $('#status_on-call').prop("checked", false)
                     $('#status_hired').prop("checked", false)
-
-
-                } else if (feedback.status == "OK") {
-                    $("#modal-feedback-title").html("Congrats!");
-                    $("#modal-feedback").html("Your trip has been ended!");
-                    $("#myModal").modal("show");
                 }
             },
             error: function(e) {
