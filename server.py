@@ -29,7 +29,7 @@ class DriverLocationForm(Form):
 
 app = Flask(__name__)
 sslify = SSLify(app)
-app.debug = False
+app.debug = True
 
 # initialize database connection settings
 mysql = MySQL()
@@ -355,11 +355,7 @@ def pickup ():
     print "--------------------------------------------------------"
     print "---------------- Request params ------------------------"
     # check whether the driver is on call
-    data = request.get_json()
-    for key, value in data.iteritems():
-        print key, value
-
-    id = int(data['driverid'])
+    id = int(request.form['driverid'])
 
     if id == 1 and driver1status == 2:
         print "Success assigned driver 1 for hired..."
@@ -389,11 +385,8 @@ def end_trip ():
     print "---------------- Request params ------------------------"
 
     # check whether the driver is hired
-    data = request.get_json()
-    for key, value in data.iteritems():
-        print key, value
 
-    id = int(data['driverid'])
+    id = int(request.form['driverid'])
     if id == 1 and driver1status == 3:
         driver1status = 1 # set driver to available
         print "Success assigned driver 1 for end trip..."
