@@ -39,12 +39,13 @@
 
     </style>
     <!-- Bootstrap core CSS -->
-    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link href="{{ url_for('static', filename='css/map.css') }}" rel="stylesheet">
 
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </head>
 
@@ -165,9 +166,35 @@
         </div>
     </div>
     <!-- /.row -->
+
+
+
 </div>
+<button type="button" class="btn btn-info btn-lg" id="feedback-alert" style="display: none" data-toggle="modal" data-target="#myModal"></button>
+
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                  <h4 id="call-taxi-feedback-title" class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+              </div>
+              <div class="modal-body">
+                <p id="call-taxi-feedback"></p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
 <!-- /.container -->
-<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+<script src="{{ url_for('static', filename='js/caller.js') }}"></script>
 
 <script>
     var reportFreq = 30000; // default customer location report frequency
@@ -193,16 +220,41 @@
 
         console.log($('form').serialize());
         $.ajax({
-            url: window.location.pathname, // form action url
+            url: '/calltaxi', // form action url
             type: 'POST', // form submit method get/post
             dataType: 'html', // request type html/json/xml
             async:false,
-            data: $('form').serialize(), // serialize form data 
+            data: $('form').serialize(), // serialize form data
             success: function(data) {
+                // TODO: whether the request is successful or not>
                 console.log("Success send call a taxi request to the server...");
+
+
+                feedback = JSON.parse(data);
+                console.log(feedback.status == "INVALID_REQUEST");
+                if (feedback.status == "INVALID_REQUEST") {
+                    error_message = "Invalid Request:<br />";
+                    for (var key in feedback) {
+                        if (feedback.hasOwnProperty(key)) {
+                            error_message += (key + " is " + feedback[key] + "<br />");
+                        }
+                    }
+
+                    $("#call-taxi-feedback-title").html("Invalid Request");
+                    $("#call-taxi-feedback").html(error_message);
+                    $("#myModal").modal("show");
+
+
+                } else if (feedback.status == "OK") {
+                    $("#call-taxi-feedback-title").html("Congrats!");
+                    $("#call-taxi-feedback").html("Your request has been processed!");
+                    $("#myModal").modal("show");
+                }
             },
             error: function(e) {
+                $("#call-taxi-feedback").html(e)
                 console.log(e)
+                $("#myModal").modal("show");
             }
         });
 

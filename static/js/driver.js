@@ -89,16 +89,38 @@ function showPosition(position) {
 
         console.log($('form').serialize());
         $.ajax({
-            url: window.location.pathname, // form action url
+            url: '/update_driver_location', // form action url
             type: 'POST', // form submit method get/post
             dataType: 'html', // request type html/json/xml
             async:false,
             data: $('#form-driver-status').serialize(), // serialize form data 
             success: function(data) {
-                console.log("Success send real time location data to the server...");
+                console.log("Success send driver real time location data to the server...");
+
+                feedback = JSON.parse(data);
+                console.log(feedback.status == "INVALID_REQUEST");
+                if (feedback.status == "INVALID_REQUEST") {
+                    error_message = "Invalid Request:<br />";
+
+                    $("#modal-feedback-title").html("Invalid Request");
+                    $("#modal-feedback").html(error_message);
+                    $("#myModal").modal("show");
+
+
+                } else if (feedback.status == "OK") {
+                    if (feedback.update == 2) { // driver get hired
+                        $("#modal-feedback-title").html("Congrats!");
+                        $("#modal-feedback").html("You have been on-call!");
+                        $("#myModal").modal("show");
+
+                        // show the on-call button
+                        $("#btn-pick-up").show();
+                    }
+                }
             },
             error: function(e) {
-                console.log(e)
+                $("#modal-feedback").html(e);
+                $("#myModal").modal("show");
             }
         });
 
@@ -114,10 +136,6 @@ function showPosition(position) {
         if (reportFreq == 10000) document.getElementById("report_1_min") == true;
         //document.getElementById("");
     }
-    
-}
-
-function submitForm() {
     
 }
 

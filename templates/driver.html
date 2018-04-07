@@ -5,11 +5,14 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <!-- Bootstrap core CSS -->
-    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <link href="{{ url_for('static', filename='css/map.css') }}" rel="stylesheet">
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -73,7 +76,7 @@
                 <div class="google-maps">
                     <div id="map"></div>
                 </div>
-                
+
             </div>
             <!-- Sidebar Column -->
             <div class="col-lg-4">
@@ -91,7 +94,7 @@
                             </div>
                         </div>
                         -->
-                            <div class="form-group row"> 
+                            <div class="form-group row">
                                 <label class="col-sm-3 col-3 col-form-label text-uppercase font-weight-bold">
                                     Taxi ID
                                 </label>
@@ -169,13 +172,52 @@
                                     <input type="text" readonly class="form-control" id="lng">
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <a href="#" id="btn-end-trip" class="btn btn-primary btn-block">END TRIP</a>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <a href="#" id="btn-pick-up" class="btn btn-primary btn-block">PICK UP</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
         <!-- /.row -->
+
     </div>
+
+    <button type="button" class="btn btn-info btn-lg" id="feedback-alert" style="display: none" data-toggle="modal" data-target="#myModal"></button>
+
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                  <h4 id="modal-feedback-title" class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+              </div>
+              <div class="modal-body">
+                <p id="modal-feedback"></p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
     <!-- /.container -->
     <script src="{{ url_for('static', filename='js/driver.js') }}"></script>
     <script>
@@ -208,7 +250,7 @@
             clearInterval(reportHandle);
             console.log("stop reporting!");
         }
-    })
+    });
 
     document.getElementById("status_on-call").addEventListener("change", function() {
         $("#driver-status").value = 3;
@@ -222,6 +264,91 @@
         $("#driver-status").value = 2;
     });
 
+
+    $("#btn-pick-up").hide();
+    $("#btn-pick-up").click(function () {
+
+        data = {
+            "driverid" : {{ driverid }}
+        };
+
+        $("#btn-pick-up").hide();
+        $("#btn-end-trip").show();
+
+        $.ajax({
+            url: '/pickup', // form action url
+            type: 'POST', // form submit method get/post
+            dataType: 'json', // request type html/json/xml
+            async:false,
+            data: data, // serialize form data
+            success: function(data) {
+                console.log("Success send picked current customer up request to the server...");
+
+                feedback = JSON.parse(data);
+                console.log(feedback.status == "INVALID_REQUEST");
+                if (feedback.status == "INVALID_REQUEST") {
+                    error_message = "Invalid Request:<br />";
+
+                    $("#modal-feedback-title").html("Invalid Request");
+                    $("#modal-feedback").html(error_message);
+                    $("#myModal").modal("show");
+
+
+                } else if (feedback.status == "OK") {
+                    $("#modal-feedback-title").html("Congrats!");
+                    $("#modal-feedback").html("Your are hired!");
+                    $("#myModal").modal("show");
+                }
+            },
+            error: function(e) {
+                $("#modal-feedback").html(e);
+                $("#myModal").modal("show");
+            }
+        });
+    });
+
+    $("#btn-end-trip").hide();
+    $("#btn-end-trip").click(function () {
+
+        data = {
+            "driverid" : {{ driverid }}
+        };
+
+        // hide the button
+        $("#btn-pick-up").hide();
+        $("#btn-end-trip").hide();
+
+        $.ajax({
+            url: '/endtrip', // form action url
+            type: 'POST', // form submit method get/post
+            dataType: 'json', // request type html/json/xml
+            async:false,
+            data: data, // serialize form data
+            success: function(data) {
+                console.log("Success send end current trip request to the server...");
+
+                feedback = JSON.parse(data);
+                console.log(feedback.status == "INVALID_REQUEST");
+                if (feedback.status == "INVALID_REQUEST") {
+                    error_message = "Invalid Request:<br />";
+
+                    $("#modal-feedback-title").html("Invalid Request");
+                    $("#modal-feedback").html(error_message);
+                    $("#myModal").modal("show");
+
+
+                } else if (feedback.status == "OK") {
+                    $("#modal-feedback-title").html("Congrats!");
+                    $("#modal-feedback").html("Your trip has been ended!");
+                    $("#myModal").modal("show");
+                }
+            },
+            error: function(e) {
+                $("#modal-feedback").html(e);
+                $("#myModal").modal("show");
+            }
+        });
+    });
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZ2cAeiEseW9hyqSjuJnsgbKS5DLVPvOs&libraries=places&callback=initMap" async defer></script>
 </body>
