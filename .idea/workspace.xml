@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="53252b4f-a2fc-41de-b1af-6ddf58b9fcad" name="Default" comment="update: driver page will see the location">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server.py" afterPath="$PROJECT_DIR$/server.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,15 +20,15 @@
       <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="626">
-              <caret line="360" column="29" lean-forward="false" selection-start-line="360" selection-start-column="29" selection-end-line="360" selection-end-column="29" />
+            <state relative-caret-position="348">
+              <caret line="297" column="0" lean-forward="true" selection-start-line="297" selection-start-column="0" selection-end-line="297" selection-end-column="0" />
               <folding>
                 <element signature="e#0#94#0" expanded="true" />
-                <marker date="1523065496134" expanded="true" signature="12175:12176" ph="INSERT INTO driver... " />
-                <marker date="1523065496134" expanded="true" signature="12519:12638" ph="INSERT INTO driver... " />
-                <marker date="1523065496134" expanded="true" signature="13344:13463" ph="INSERT INTO driver... " />
-                <marker date="1523065496134" expanded="true" signature="16243:16263" ph="SELECT * FRO... driver" />
-                <marker date="1523065496134" expanded="true" signature="17037:17075" ph="SELECT * FRO... request" />
+                <marker date="1523065570312" expanded="true" signature="12248:12249" ph="INSERT INTO driver... " />
+                <marker date="1523065570312" expanded="true" signature="12481:12600" ph="INSERT INTO driver... " />
+                <marker date="1523065570312" expanded="true" signature="13273:13392" ph="INSERT INTO driver... " />
+                <marker date="1523065570312" expanded="true" signature="16172:16192" ph="SELECT * FRO... driver" />
+                <marker date="1523065570312" expanded="true" signature="16966:17004" ph="SELECT * FRO... request" />
               </folding>
             </state>
           </provider>
@@ -421,15 +420,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="626">
-          <caret line="360" column="29" lean-forward="false" selection-start-line="360" selection-start-column="29" selection-end-line="360" selection-end-column="29" />
+        <state relative-caret-position="348">
+          <caret line="297" column="0" lean-forward="true" selection-start-line="297" selection-start-column="0" selection-end-line="297" selection-end-column="0" />
           <folding>
             <element signature="e#0#94#0" expanded="true" />
-            <marker date="1523065496134" expanded="true" signature="12175:12176" ph="INSERT INTO driver... " />
-            <marker date="1523065496134" expanded="true" signature="12519:12638" ph="INSERT INTO driver... " />
-            <marker date="1523065496134" expanded="true" signature="13344:13463" ph="INSERT INTO driver... " />
-            <marker date="1523065496134" expanded="true" signature="16243:16263" ph="SELECT * FRO... driver" />
-            <marker date="1523065496134" expanded="true" signature="17037:17075" ph="SELECT * FRO... request" />
+            <marker date="1523065570312" expanded="true" signature="12248:12249" ph="INSERT INTO driver... " />
+            <marker date="1523065570312" expanded="true" signature="12481:12600" ph="INSERT INTO driver... " />
+            <marker date="1523065570312" expanded="true" signature="13273:13392" ph="INSERT INTO driver... " />
+            <marker date="1523065570312" expanded="true" signature="16172:16192" ph="SELECT * FRO... driver" />
+            <marker date="1523065570312" expanded="true" signature="16966:17004" ph="SELECT * FRO... request" />
           </folding>
         </state>
       </provider>

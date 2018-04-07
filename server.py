@@ -289,27 +289,24 @@ def update_driver_location():
         time = "00:00:00" if request.form.get('time', None) == None else request.form['time']
         date = "2018-02-05" if request.form.get('date', None) == None else request.form['date']
 
+        global assignedDriver,driver1status, driver2status, driver3status
 
         if assignedDriver != -1 and id == assignedDriver:
             conn = mysql.connect()
             cur = conn.cursor()
             # driver has been assigned to a customer
 
-
             if id == 1:
-                global driver1status
                 driver1status = 2
             elif id == 2:
-                global driver2status
                 driver2status = 2
             elif id == 3:
-                global driver3status
                 driver3status = 2
 
             status = 2  # on-call
             sql = "INSERT INTO driver (driverid, date, time, location_lat, location_lng, name, status) VALUES (%s, %s, %s, %s, %s, %s, %s) "
 
-            global assignedDriver
+
             assignedDriver = -1
 
             cur.execute(sql, (id, date, time, location_lat, location_lng, name, status))
