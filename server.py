@@ -355,9 +355,6 @@ def pickup ():
     print "--------------------------------------------------------"
     print "---------------- Request params ------------------------"
     # check whether the driver is on call
-    for item in request:
-        print item
-
     id = int(request.get('driverid'))
 
     if id == 1 and driver1status == 2:
@@ -388,9 +385,6 @@ def end_trip ():
     print "---------------- Request params ------------------------"
 
     # check whether the driver is hired
-    for item in request:
-        print item
-
     id = int(request.get('driverid'))
     if id == 1 and driver1status == 3:
         driver1status = 1 # set driver to available

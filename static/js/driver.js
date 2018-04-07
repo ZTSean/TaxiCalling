@@ -116,6 +116,8 @@ function showPosition(position) {
 
                         // show the on-call button
                         $("#btn-pick-up").show();
+                        // set driver's status in UI to hired
+                        $('#status_on-call').prop("checked", true)
                     }
                 }
             },

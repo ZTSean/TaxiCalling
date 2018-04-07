@@ -272,9 +272,6 @@
             "driverid" : {{ driverid }}
         };
 
-        $("#btn-pick-up").hide();
-        $("#btn-end-trip").show();
-
         $.ajax({
             url: '/pickup', // form action url
             type: 'POST', // form submit method get/post
@@ -290,7 +287,7 @@
                     error_message = "Invalid Request:<br />";
 
                     $("#modal-feedback-title").html("Invalid Request");
-                    $("#modal-feedback").html(error_message);
+                    $("#modal-feedback").html("You are not on-call!");
                     $("#myModal").modal("show");
 
 
@@ -298,9 +295,16 @@
                     $("#modal-feedback-title").html("Congrats!");
                     $("#modal-feedback").html("Your are hired!");
                     $("#myModal").modal("show");
+
+                    $("#btn-pick-up").hide();
+                    $("#btn-end-trip").show();
+
+                    // set driver's status in UI to hired
+                    $('#status_hired').prop("checked", true)
                 }
             },
             error: function(e) {
+                $("#modal-feedback-title").html("Invalid Request");
                 $("#modal-feedback").html(e);
                 $("#myModal").modal("show");
             }
@@ -313,10 +317,6 @@
         data = {
             "driverid" : {{ driverid }}
         };
-
-        // hide the button
-        $("#btn-pick-up").hide();
-        $("#btn-end-trip").hide();
 
         $.ajax({
             url: '/endtrip', // form action url
@@ -333,8 +333,15 @@
                     error_message = "Invalid Request:<br />";
 
                     $("#modal-feedback-title").html("Invalid Request");
-                    $("#modal-feedback").html(error_message);
+                    $("#modal-feedback").html("You are not hired!");
                     $("#myModal").modal("show");
+
+                    // hide the button
+                    $("#btn-pick-up").hide();
+                    $("#btn-end-trip").hide();
+
+                    // set driver's status in UI to available
+                    $('#status_available').prop("checked", true)
 
 
                 } else if (feedback.status == "OK") {
