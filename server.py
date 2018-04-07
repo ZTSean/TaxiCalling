@@ -355,7 +355,7 @@ def pickup ():
     print "--------------------------------------------------------"
     print "---------------- Request params ------------------------"
     # check whether the driver is on call
-    id = int(request.get('driverid'))
+    id = int(request.form.get('driverid'))
 
     if id == 1 and driver1status == 2:
         print "Success assigned driver 1 for hired..."

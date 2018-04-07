@@ -19,28 +19,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="992">
-              <caret line="386" column="39" lean-forward="false" selection-start-line="386" selection-start-column="39" selection-end-line="386" selection-end-column="39" />
+            <state relative-caret-position="341">
+              <caret line="362" column="33" lean-forward="false" selection-start-line="362" selection-start-column="33" selection-end-line="362" selection-end-column="33" />
               <folding>
                 <element signature="e#0#94#0" expanded="true" />
-                <marker date="1523083608906" expanded="true" signature="12406:12407" ph="INSERT INTO driver... " />
-                <marker date="1523083608906" expanded="true" signature="12639:12758" ph="INSERT INTO driver... " />
-                <marker date="1523083608906" expanded="true" signature="13572:13691" ph="INSERT INTO driver... " />
-                <marker date="1523083608906" expanded="true" signature="16776:16796" ph="SELECT * FRO... driver" />
-                <marker date="1523083608906" expanded="true" signature="17570:17608" ph="SELECT * FRO... request" />
+                <marker date="1523083922862" expanded="true" signature="12406:12407" ph="INSERT INTO driver... " />
+                <marker date="1523083922862" expanded="true" signature="12639:12758" ph="INSERT INTO driver... " />
+                <marker date="1523083922862" expanded="true" signature="13572:13691" ph="INSERT INTO driver... " />
+                <marker date="1523083922862" expanded="true" signature="16781:16801" ph="SELECT * FRO... driver" />
+                <marker date="1523083922862" expanded="true" signature="17575:17613" ph="SELECT * FRO... request" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="driver.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="driver.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/js/driver.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="588">
-              <caret line="119" column="42" lean-forward="false" selection-start-line="119" selection-start-column="42" selection-end-line="119" selection-end-column="42" />
+            <state relative-caret-position="322">
+              <caret line="120" column="64" lean-forward="false" selection-start-line="120" selection-start-column="64" selection-end-line="120" selection-end-column="64" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -51,8 +51,8 @@
       <file leaf-file-name="driver.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/driver.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-189">
-              <caret line="294" column="38" lean-forward="false" selection-start-line="294" selection-start-column="24" selection-end-line="294" selection-end-column="38" />
+            <state relative-caret-position="307">
+              <caret line="108" column="71" lean-forward="false" selection-start-line="108" selection-start-column="64" selection-end-line="108" selection-end-column="71" />
               <folding>
                 <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -98,8 +98,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>driver</find>
-      <find>from_lat</find>
       <find>cursor</find>
       <find>validate</find>
       <find>update_Driver</find>
@@ -128,6 +126,8 @@
       <find>assigned</find>
       <find>status_available</find>
       <find>modal-feedback</find>
+      <find>pickup</find>
+      <find>status_</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -153,9 +153,9 @@
         <option value="$PROJECT_DIR$/CallTaxiForm.py" />
         <option value="$PROJECT_DIR$/static/js/caller.js" />
         <option value="$PROJECT_DIR$/templates/caller.html" />
-        <option value="$PROJECT_DIR$/static/js/driver.js" />
-        <option value="$PROJECT_DIR$/templates/driver.html" />
         <option value="$PROJECT_DIR$/server.py" />
+        <option value="$PROJECT_DIR$/templates/driver.html" />
+        <option value="$PROJECT_DIR$/static/js/driver.js" />
       </list>
     </option>
   </component>
@@ -423,37 +423,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/driver.js">
+    <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="588">
-          <caret line="119" column="42" lean-forward="false" selection-start-line="119" selection-start-column="42" selection-end-line="119" selection-end-column="42" />
+        <state relative-caret-position="341">
+          <caret line="362" column="33" lean-forward="false" selection-start-line="362" selection-start-column="33" selection-end-line="362" selection-end-column="33" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#0#94#0" expanded="true" />
+            <marker date="1523083922862" expanded="true" signature="12406:12407" ph="INSERT INTO driver... " />
+            <marker date="1523083922862" expanded="true" signature="12639:12758" ph="INSERT INTO driver... " />
+            <marker date="1523083922862" expanded="true" signature="13572:13691" ph="INSERT INTO driver... " />
+            <marker date="1523083922862" expanded="true" signature="16781:16801" ph="SELECT * FRO... driver" />
+            <marker date="1523083922862" expanded="true" signature="17575:17613" ph="SELECT * FRO... request" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/driver.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-189">
-          <caret line="294" column="38" lean-forward="false" selection-start-line="294" selection-start-column="24" selection-end-line="294" selection-end-column="38" />
+        <state relative-caret-position="307">
+          <caret line="108" column="71" lean-forward="false" selection-start-line="108" selection-start-column="64" selection-end-line="108" selection-end-column="71" />
           <folding>
             <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server.py">
+    <entry file="file://$PROJECT_DIR$/static/js/driver.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="992">
-          <caret line="386" column="39" lean-forward="false" selection-start-line="386" selection-start-column="39" selection-end-line="386" selection-end-column="39" />
+        <state relative-caret-position="322">
+          <caret line="120" column="64" lean-forward="false" selection-start-line="120" selection-start-column="64" selection-end-line="120" selection-end-column="64" />
           <folding>
-            <element signature="e#0#94#0" expanded="true" />
-            <marker date="1523083608906" expanded="true" signature="12406:12407" ph="INSERT INTO driver... " />
-            <marker date="1523083608906" expanded="true" signature="12639:12758" ph="INSERT INTO driver... " />
-            <marker date="1523083608906" expanded="true" signature="13572:13691" ph="INSERT INTO driver... " />
-            <marker date="1523083608906" expanded="true" signature="16776:16796" ph="SELECT * FRO... driver" />
-            <marker date="1523083608906" expanded="true" signature="17570:17608" ph="SELECT * FRO... request" />
+            <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>

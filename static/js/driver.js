@@ -118,6 +118,9 @@ function showPosition(position) {
                         $("#btn-pick-up").show();
                         // set driver's status in UI to hired
                         $('#status_on-call').prop("checked", true)
+                        $('#status_hired').prop("checked", false)
+                        $('#status_available').prop("checked", false)
+
                     }
                 }
             },

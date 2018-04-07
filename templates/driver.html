@@ -111,14 +111,15 @@
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" id="status_hired" value="2" disabled> Hired
+                                        <input type="radio" id="status_on-call" value="3" disabled> On-Call
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" id="status_on-call" value="3" disabled> On-Call
+                                        <input type="radio" id="status_hired" value="2" disabled> Hired
                                     </label>
                                 </div>
+
                             </div>
                             <div class="form-group">
                                 <label class="text-uppercase font-weight-bold">Report Frequency</label>
@@ -301,6 +302,8 @@
 
                     // set driver's status in UI to hired
                     $('#status_hired').prop("checked", true)
+                    $('#status_on-call').prop("checked", false)
+                    $('#status_available').prop("checked", false)
                 }
             },
             error: function(e) {
@@ -342,6 +345,8 @@
 
                     // set driver's status in UI to available
                     $('#status_available').prop("checked", true)
+                    $('#status_on-call').prop("checked", false)
+                    $('#status_hired').prop("checked", false)
 
 
                 } else if (feedback.status == "OK") {
