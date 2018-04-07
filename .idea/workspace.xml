@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="53252b4f-a2fc-41de-b1af-6ddf58b9fcad" name="Default" comment="update: driver page will see the location">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/static/js/map.js" afterPath="$PROJECT_DIR$/static/js/caller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/requirements.txt" afterPath="$PROJECT_DIR$/requirements.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server.py" afterPath="$PROJECT_DIR$/server.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/driver.js" afterPath="$PROJECT_DIR$/static/js/driver.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/caller.html" afterPath="$PROJECT_DIR$/templates/caller.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/driver.html" afterPath="$PROJECT_DIR$/templates/driver.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,15 +20,15 @@
       <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="31" column="17" lean-forward="false" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
+            <state relative-caret-position="192">
+              <caret line="276" column="29" lean-forward="false" selection-start-line="276" selection-start-column="29" selection-end-line="276" selection-end-column="29" />
               <folding>
                 <element signature="e#0#94#0" expanded="true" />
-                <marker date="1523064307868" expanded="true" signature="12221:12340" ph="INSERT INTO driver... " />
-                <marker date="1523064307868" expanded="true" signature="12221:12344" ph="INSERT INTO driver... " />
-                <marker date="1523064307868" expanded="true" signature="13191:13310" ph="INSERT INTO driver... " />
-                <marker date="1523064307868" expanded="true" signature="16068:16088" ph="SELECT * FRO... driver" />
-                <marker date="1523064307868" expanded="true" signature="16862:16900" ph="SELECT * FRO... request" />
+                <marker date="1523064822806" expanded="true" signature="12175:12176" ph="INSERT INTO driver... " />
+                <marker date="1523064822806" expanded="true" signature="12408:12527" ph="INSERT INTO driver... " />
+                <marker date="1523064822806" expanded="true" signature="13199:13318" ph="INSERT INTO driver... " />
+                <marker date="1523064822806" expanded="true" signature="16043:16063" ph="SELECT * FRO... driver" />
+                <marker date="1523064822806" expanded="true" signature="16837:16875" ph="SELECT * FRO... request" />
               </folding>
             </state>
           </provider>
@@ -90,7 +84,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>search</find>
       <find>call-taxi-address</find>
       <find>min</find>
       <find>current</find>
@@ -120,6 +113,7 @@
       <find>map.js</find>
       <find>modal-feedback</find>
       <find>end-trip-feedback</find>
+      <find>DriverLocationForm</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -426,15 +420,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" column="17" lean-forward="false" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
+        <state relative-caret-position="192">
+          <caret line="276" column="29" lean-forward="false" selection-start-line="276" selection-start-column="29" selection-end-line="276" selection-end-column="29" />
           <folding>
             <element signature="e#0#94#0" expanded="true" />
-            <marker date="1523064307868" expanded="true" signature="12221:12340" ph="INSERT INTO driver... " />
-            <marker date="1523064307868" expanded="true" signature="12221:12344" ph="INSERT INTO driver... " />
-            <marker date="1523064307868" expanded="true" signature="13191:13310" ph="INSERT INTO driver... " />
-            <marker date="1523064307868" expanded="true" signature="16068:16088" ph="SELECT * FRO... driver" />
-            <marker date="1523064307868" expanded="true" signature="16862:16900" ph="SELECT * FRO... request" />
+            <marker date="1523064822806" expanded="true" signature="12175:12176" ph="INSERT INTO driver... " />
+            <marker date="1523064822806" expanded="true" signature="12408:12527" ph="INSERT INTO driver... " />
+            <marker date="1523064822806" expanded="true" signature="13199:13318" ph="INSERT INTO driver... " />
+            <marker date="1523064822806" expanded="true" signature="16043:16063" ph="SELECT * FRO... driver" />
+            <marker date="1523064822806" expanded="true" signature="16837:16875" ph="SELECT * FRO... request" />
           </folding>
         </state>
       </provider>

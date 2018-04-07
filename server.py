@@ -274,7 +274,7 @@ def driver():
 
 @app.route("/update_driver_location", methods=['POST'])
 def update_driver_location():
-    form = CallTaxiForm(request.form)
+    form = DriverLocationForm(request.form)
     if form.validate():
         print "================ Update Request from driver " + str(id) + " ================"
         # update driver location & change status
@@ -295,8 +295,6 @@ def update_driver_location():
             cur = conn.cursor()
             # driver has been assigned to a customer
 
-            status = 2 # on-call
-            sql = "INSERT INTO driver (driverid, date, time, location_lat, location_lng, name, status) VALUES (%s, %s, %s, %s, %s, %s, %s) "
 
             if id == 1:
                 driver1status = 2
@@ -304,6 +302,9 @@ def update_driver_location():
                 driver2status = 2
             elif id == 3:
                 driver3status = 2
+
+            status = 2  # on-call
+            sql = "INSERT INTO driver (driverid, date, time, location_lat, location_lng, name, status) VALUES (%s, %s, %s, %s, %s, %s, %s) "
 
             assignedDriver = -1
 
@@ -324,8 +325,6 @@ def update_driver_location():
 
             status = 1 if request.form.get('status', None) == None else request.form['status']
             sql = "INSERT INTO driver (driverid, date, time, location_lat, location_lng, name, status) VALUES (%s, %s, %s, %s, %s, %s, %s) "
-
-            assignedDriver = -1
 
             cur.execute(sql, (id, date, time, location_lat, location_lng, name, status))
             conn.commit()
