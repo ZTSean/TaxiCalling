@@ -276,10 +276,10 @@ def driver():
 def update_driver_location():
     form = DriverLocationForm(request.form)
     if form.validate():
+        id = int(request.form.get('driverid'))
         print "================ Update Request from driver " + str(id) + " ================"
         # update driver location & change status
         # fields in request: name , to_lat , to_lng, from_lng , from_lat, phone, time, date, destination
-        id = int(request.form.get('driverid'))
         name = "anonymous" if request.form.get('name', None) == None or len(request.form.get('name')) == 0 else \
         request.form['name']
         location_lat = "22.0" if request.form.get('location_lat', None) == None or len(
