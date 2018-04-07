@@ -297,15 +297,19 @@ def update_driver_location():
 
 
             if id == 1:
+                global driver1status
                 driver1status = 2
             elif id == 2:
+                global driver2status
                 driver2status = 2
             elif id == 3:
+                global driver3status
                 driver3status = 2
 
             status = 2  # on-call
             sql = "INSERT INTO driver (driverid, date, time, location_lat, location_lng, name, status) VALUES (%s, %s, %s, %s, %s, %s, %s) "
 
+            global assignedDriver
             assignedDriver = -1
 
             cur.execute(sql, (id, date, time, location_lat, location_lng, name, status))
@@ -351,6 +355,7 @@ def pickup ():
         print item
 
     id = int(request.get('driverid'))
+    global driver1status, driver2status, driver3status
     if id == 1 and driver1status == 2:
         driver1status = 3 # set driver to available
         return json.dumps({"status": "OK"})
