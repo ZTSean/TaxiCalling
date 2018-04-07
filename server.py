@@ -83,7 +83,7 @@ def welcome():
         elif bcrypt.check_password_hash(code, 'driver3'):
             print "Driver 3 requested"
             return redirect(url_for("driver", driverid=3))
-        elif bcrypt.check_password_hash(code, 'customer'):
+        elif bcrypt.check_password_hash(code, 'caller'):
             print "Customer requested"
             return redirect(url_for("caller", requesttype=1))
         elif bcrypt.check_password_hash(code, 'callcentre'):
@@ -290,8 +290,10 @@ def update_driver_location():
         date = "2018-02-05" if request.form.get('date', None) == None else request.form['date']
 
         global assignedDriver,driver1status, driver2status, driver3status
+        print "Current Assigned driver: " + str(assignedDriver)
 
         if assignedDriver != -1 and id == assignedDriver:
+            print "Driver " + str(id) + " has been assigned customer..."
             conn = mysql.connect()
             cur = conn.cursor()
             # driver has been assigned to a customer
@@ -315,10 +317,13 @@ def update_driver_location():
             cur.close()
             conn.close()
 
+            print "Success assigned driver " + str(id) + " for on-call..."
+
             # return status for update
             # update == 2, need update in UI
             return json.dumps({"status": "OK", "update": 2, "driver_status": 2})
         else:
+            print "Driver " + str(id) + " not being assigned..."
             # driver not being assigned a new customer
             conn = mysql.connect()
             cur = conn.cursor()
@@ -354,12 +359,15 @@ def pickup ():
     id = int(request.get('driverid'))
     global driver1status, driver2status, driver3status
     if id == 1 and driver1status == 2:
+        print "Success assigned driver 1 for hired..."
         driver1status = 3 # set driver to available
         return json.dumps({"status": "OK"})
     elif id == 2 and driver2status == 2:
+        print "Success assigned driver 2 for hired..."
         driver2status = 3
         return json.dumps({"status": "OK"})
     elif id == 3 and driver3status == 2:
+        print "Success assigned driver 3 for hired..."
         driver3status = 3
 
         return json.dumps({ "status" : "OK" })
@@ -376,6 +384,7 @@ def end_trip ():
     print "--------------------------------------------------------"
     print "---------------- Request params ------------------------"
 
+    global driver1status, driver2status, driver3status
     # check whether the driver is hired
     for item in request:
         print item
@@ -383,11 +392,14 @@ def end_trip ():
     id = int(request.get('driverid'))
     if id == 1 and driver1status == 3:
         driver1status = 1 # set driver to available
+        print "Success assigned driver 1 for end trip..."
         return json.dumps({"status": "OK"})
     elif id == 2 and driver2status == 3:
+        print "Success assigned driver 2 for end trip..."
         driver2status = 1
         return json.dumps({"status": "OK"})
     elif id == 3 and driver3status == 3:
+        print "Success assigned driver 3 for end trip..."
         driver3status = 1
 
         return json.dumps({ "status" : "OK" })
@@ -412,13 +424,13 @@ def callcentre():
         for row in cur:
             formattedRow = {}
             # (1, datetime.date(2018, 2, 4), datetime.timedelta(0, 31269), Decimal( &  # 39;22.27931130&#39;), Decimal(&#39;114.13650370&#39;), u&#39;anonymous&#39;, 1)
-            formattedRow['driverid'] = row[0]
-            formattedRow['date'] = str(row[1])
-            formattedRow['time'] = str(row[2])
-            formattedRow['location_lat'] = float(row[3])
-            formattedRow['location_lng'] = float(row[4])
-            formattedRow['name'] = row[5]
-            formattedRow['status'] = row[6]
+            formattedRow['driverid'] = row[1]
+            formattedRow['date'] = str(row[2])
+            formattedRow['time'] = str(row[3])
+            formattedRow['location_lat'] = float(row[4])
+            formattedRow['location_lng'] = float(row[5])
+            formattedRow['name'] = row[6]
+            formattedRow['status'] = row[7]
 
             driverdata.append(formattedRow)
 

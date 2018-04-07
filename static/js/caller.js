@@ -179,6 +179,12 @@ function showPosition(position) {
         + document.getElementById('call-taxi-from_y').value
     );
 
+    $("#call-taxi-feedback-title").html("Located");
+    $("#call-taxi-feedback").html("Now you are able to call a taxi.");
+    $("#myModal").modal("show");
+    // enable call taxi button
+    $('#btn-call-taxi').show();
+
     return geolocation;
 }
 
