@@ -67,11 +67,12 @@ function showPosition(position) {
     console.log(document.getElementById("driver-location_lat").value != geolocation.lat);
 
     
-    // if the location data is not consistent with previous one 
+    // if the location data is not consistent with previous one
+    /*
     if (document.getElementById("driver-location_lat").value != geolocation.lat ||
     document.getElementById("driver-location_lng").value != geolocation.lng ) {
         document.getElementById("driver-location_lat").value == geolocation.lat;
-        document.getElementById("driver-location_lng").value == geolocation.lng;
+        document.getElementById("driver-location_lng").value == geolocation.lng;*/
 
         document.getElementById("lat").value = geolocation.lat.toFixed(7);
         document.getElementById("lng").value = geolocation.lng.toFixed(7);
@@ -135,7 +136,7 @@ function showPosition(position) {
         if (reportFreq == 30000) document.getElementById("report_3_min") == true;
         if (reportFreq == 10000) document.getElementById("report_1_min") == true;
         //document.getElementById("");
-    }
+    //}
     
 }
 
