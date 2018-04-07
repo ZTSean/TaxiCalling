@@ -109,6 +109,7 @@ def caller():
 
 @app.route("/calltaxi", methods=['POST'])
 def calltaxi():
+    global assignedDriver
     ## call a taxi
     print "========================================================"
     print "================ Process taxi request =================="
@@ -274,6 +275,7 @@ def driver():
 
 @app.route("/update_driver_location", methods=['POST'])
 def update_driver_location():
+    global assignedDriver, driver1status, driver2status, driver3status
     form = DriverLocationForm(request.form)
     if form.validate():
         id = int(request.form.get('driverid'))
@@ -289,7 +291,6 @@ def update_driver_location():
         time = "00:00:00" if request.form.get('time', None) == None else request.form['time']
         date = "2018-02-05" if request.form.get('date', None) == None else request.form['date']
 
-        global assignedDriver,driver1status, driver2status, driver3status
         print "Current Assigned driver: " + str(assignedDriver)
 
         if assignedDriver != -1 and id == assignedDriver:
@@ -348,6 +349,7 @@ def update_driver_location():
 
 @app.route("/pickup", methods=["POST"])
 def pickup ():
+    global driver1status, driver2status, driver3status
     print "========================================================"
     print "=============== Process pick up request ================"
     print "--------------------------------------------------------"
@@ -357,7 +359,7 @@ def pickup ():
         print item
 
     id = int(request.get('driverid'))
-    global driver1status, driver2status, driver3status
+
     if id == 1 and driver1status == 2:
         print "Success assigned driver 1 for hired..."
         driver1status = 3 # set driver to available
@@ -379,12 +381,12 @@ def pickup ():
 
 @app.route("/endtrip", methods=["POST"])
 def end_trip ():
+    global driver1status, driver2status, driver3status
     print "========================================================"
     print "=============== Process end trip request ================"
     print "--------------------------------------------------------"
     print "---------------- Request params ------------------------"
 
-    global driver1status, driver2status, driver3status
     # check whether the driver is hired
     for item in request:
         print item
