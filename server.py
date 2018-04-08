@@ -32,7 +32,7 @@ class DriverLocationForm(Form):
 
 app = Flask(__name__)
 sslify = SSLify(app)
-app.debug = True
+app.debug = False
 
 # initialize database connection settings
 mysql = MySQL()
@@ -54,9 +54,12 @@ app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-iron-east-05.cleardb.net'
 mysql.init_app(app)
 
 assignedDriver = -1
+pendingRequest = dict()
+pendingRequest['status'] = -1 # no pending request
 driver1status = 1
 driver2status = 1
 driver3status = 1
+
 
 bcrypt = Bcrypt(app)
 
@@ -113,7 +116,7 @@ def caller():
 
 @app.route("/calltaxi", methods=['POST'])
 def calltaxi():
-    global assignedDriver
+    global assignedDriver, pendingRequest
     ## call a taxi
     print "========================================================"
     print "================ Process taxi request =================="
@@ -220,6 +223,9 @@ def calltaxi():
                 minTime = tmp
                 assignedDriver = availableDrivers[i]
 
+        pendingRequest['lat'] = from_lat
+        pendingRequest['lng'] = from_lng
+        pendingRequest['status'] = 1 # set to on-call status
         print "Assigned Driver: " + str(assignedDriver)
 
         '''
@@ -234,7 +240,7 @@ def calltaxi():
         conn.close()
         print "========================================================"
 
-        return json.dumps(res)
+        return json.dumps({"status" : "OK", "assigned_driver": assignedDriver, "time" : minTime})
 
     else:
         print "Call a taxi request form is not valid..."
@@ -242,6 +248,13 @@ def calltaxi():
         res['status'] = "INVALID_REQUEST"
         return json.dumps(res)
 
+@app.route("/update_caller_location", methods=['POST'])
+def update_caller_location():
+    global assignedDriver, driver1status, driver2status, driver3status, pendingRequest
+
+    if pendingRequest['status'] == 1:
+        # in on-call status, on the way to pick up
+        return json.dumps({"status": pendingRequest['status'], 'lat': pendingRequest['lat'], 'lng': pendingRequest['lng']})
 
 @app.route("/driver", methods=['GET', 'POST'])
 def driver():
@@ -272,7 +285,7 @@ def driver():
 
 @app.route("/update_driver_location", methods=['POST'])
 def update_driver_location():
-    global assignedDriver, driver1status, driver2status, driver3status
+    global assignedDriver, driver1status, driver2status, driver3status,pendingRequest
     form = DriverLocationForm(request.form)
     if form.validate():
         id = int(request.form.get('driverid'))
@@ -306,6 +319,7 @@ def update_driver_location():
             status = 2  # on-call
             sql = "INSERT INTO driver (driverid, date, time, location_lat, location_lng, name, status) VALUES (%s, %s, %s, %s, %s, %s, %s) "
 
+            # update global var
             assignedDriver = -1
 
             cur.execute(sql, (id, date, time, location_lat, location_lng, name, status))
@@ -316,9 +330,10 @@ def update_driver_location():
 
             print "Success assigned driver " + str(id) + " for on-call..."
 
-            # return status for update
+            # return status for update, caller location for marker
             # update == 2, need update in UI
-            return json.dumps({"status": "OK", "update": 2, "driver_status": 2})
+
+            return json.dumps({"status": "OK", "update": 2, "driver_status": 2, "lat": pendingRequest['lat'], "lng": pendingRequest['lng']})
         else:
             print "Driver " + str(id) + " not being assigned..."
             # driver not being assigned a new customer
@@ -357,14 +372,17 @@ def pickup():
 
     if id == 1 and driver1status == 2:
         print "Success assigned driver 1 for hired..."
+        pendingRequest['status'] = 2
         driver1status = 3  # set driver to available
         return json.dumps({"status": "OK"})
     elif id == 2 and driver2status == 2:
         print "Success assigned driver 2 for hired..."
+        pendingRequest['status'] = 2
         driver2status = 3
         return json.dumps({"status": "OK"})
     elif id == 3 and driver3status == 2:
         print "Success assigned driver 3 for hired..."
+        pendingRequest['status'] = 2
         driver3status = 3
 
         return json.dumps({"status": "OK"})
@@ -388,14 +406,17 @@ def end_trip():
     id = int(request.form['driverid'])
     if id == 1 and driver1status == 3:
         print "Success assigned driver 1 for end trip..."
+        pendingRequest['status'] = -1
         driver1status = 1  # set driver to available
         return json.dumps({"status": "OK"})
     elif id == 2 and driver2status == 3:
         print "Success assigned driver 2 for end trip..."
+        pendingRequest['status'] = -1
         driver2status = 1
         return json.dumps({"status": "OK"})
     elif id == 3 and driver3status == 3:
         print "Success assigned driver 3 for end trip..."
+        pendingRequest['status'] = -1
         driver3status = 1
         return json.dumps({"status": "OK"})
     # else return error

@@ -9,6 +9,7 @@
 var searchInputId = "pac-input";
 var mapId = "map";
 var curLocationMarker;
+var driverMarker;
 
 function initMap() {
     var map = new google.maps.Map(document.getElementById(mapId), {

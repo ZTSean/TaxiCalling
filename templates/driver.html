@@ -222,7 +222,7 @@
     <!-- /.container -->
     <script src="{{ url_for('static', filename='js/driver.js') }}"></script>
     <script>
-    var reportFreq = 5000; // default report frequency
+    var reportFreq = 20000; // default report frequency
     var reqortHandle;
 
     //geolocate();
@@ -303,7 +303,11 @@
                     // set driver's status in UI to hired
                     $('#status_hired').prop("checked", true);
                     $('#status_on-call').prop("checked", false);
-                    $('#status_available').prop("checked", false)
+                    $('#status_available').prop("checked", false);
+
+                    // hide caller location after pick up
+                    console.log("hide caller marker...");
+                    callerMarker.setVisible(false);
                 }
             },
             error: function(e) {
@@ -348,9 +352,9 @@
                     $("#btn-end-trip").hide();
 
                     // set driver's status in UI to available
-                    $('#status_available').prop("checked", true)
-                    $('#status_on-call').prop("checked", false)
-                    $('#status_hired').prop("checked", false)
+                    $('#status_available').prop("checked", true);
+                    $('#status_on-call').prop("checked", false);
+                    $('#status_hired').prop("checked", false);
                 }
             },
             error: function(e) {

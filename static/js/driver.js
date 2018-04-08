@@ -12,6 +12,7 @@ var map;
 var curLocationMarker;
 var infowindow;
 var count = 0;
+var callerMarker;
 
 
 function initMap() {
@@ -98,11 +99,6 @@ function showPosition(position) {
             success: function(feedback) {
                 console.log("Success send driver real time location data to the server...");
 
-                console.log("---------");
-                console.log(typeof feedback)
-                console.log(feedback);
-                console.log("---------");
-
                 console.log(feedback.status == "INVALID_REQUEST");
                 if (feedback.status == "INVALID_REQUEST") {
                     error_message = "";
@@ -126,9 +122,20 @@ function showPosition(position) {
                         // show the on-call button
                         $("#btn-pick-up").show();
                         // set driver's status in UI to hired
-                        $('#status_on-call').prop("checked", true)
-                        $('#status_hired').prop("checked", false)
-                        $('#status_available').prop("checked", false)
+                        $('#status_on-call').prop("checked", true);
+                        $('#status_hired').prop("checked", false);
+                        $('#status_available').prop("checked", false);
+
+                        // show caller location on the map
+                        if (callerMarker == undefined) {
+                            callerMarker = new google.maps.Marker({
+                                map: map,
+                                title: "Customer location"
+                            })
+                        }
+                        console.log("Show caller marker at: " + feedback.lat + "," + feedback.lng);
+                        callerMarker.setPosition({lat: feedback.lat, lng:feedback.lng});
+                        callerMarker.setVisible(true);
 
                     }
                 }

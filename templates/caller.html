@@ -222,15 +222,13 @@
         $.ajax({
             url: '/calltaxi', // form action url
             type: 'POST', // form submit method get/post
-            dataType: 'html', // request type html/json/xml
+            dataType: 'json', // request type html/json/xml
             async:false,
             data: $('form').serialize(), // serialize form data
-            success: function(data) {
+            success: function(feedback) {
                 // TODO: whether the request is successful or not>
                 console.log("Success send call a taxi request to the server...");
 
-
-                feedback = JSON.parse(data);
                 console.log(feedback.status == "INVALID_REQUEST");
                 if (feedback.status == "INVALID_REQUEST") {
                     error_message = "";
@@ -247,13 +245,45 @@
 
                 } else if (feedback.status == "OK") {
                     $("#call-taxi-feedback-title").html("Congrats!");
-                    $("#call-taxi-feedback").html("Your request has been processed!");
+                    $("#call-taxi-feedback").html("Your request has been processed! Driver " + feedback.assigned_driver +  " will pick you up in " + feedback.time + " mins.");
                     $("#myModal").modal("show");
+
+                    // start real time show driver location
+                    reportHandle = setInterval(function() {
+                        $.ajax({
+                            url: '/update_caller_location',
+                            type: 'POST',
+                            dataType: 'json',
+                            async: false,
+                            data: $('form').serialize(),
+                            success: function(feedback) {
+                                // update == 1: start picking up process, need to show driver location
+                                if (feedback.status == 1) {
+                                    if (driverMarker == undefined) {
+                                        driverMarker = new google.maps.Marker({
+                                            map: map,
+                                            title: "Driver location"
+                                        });
+                                    }
+                                    driverMarker.setPosition({lat: feedback.lat, lng: feedback.lng});
+                                    driverMarker.setVisible(true);
+                                } else {
+                                    driverMarker.setVisible(false);
+                                }
+                            },
+                            error: function(e) {
+                                $("#call-taxi-feedback-title").html("Location Update Error");
+                                $("#call-taxi-feedback").html(e);
+                                console.log(e);
+                                $("#myModal").modal("show");
+                            }
+                        });
+                    }, reportFreq)
                 }
             },
             error: function(e) {
-                $("#call-taxi-feedback").html(e)
-                console.log(e)
+                $("#call-taxi-feedback").html(e);
+                console.log(e);
                 $("#myModal").modal("show");
             }
         });
@@ -269,6 +299,9 @@
     });
 
     $('#btn-call-taxi').hide();
+
+
+
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZ2cAeiEseW9hyqSjuJnsgbKS5DLVPvOs&libraries=places&callback=initMap"
