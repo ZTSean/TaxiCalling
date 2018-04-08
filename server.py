@@ -7,6 +7,7 @@ import math
 import requests
 from wtforms import Form, StringField, validators
 
+
 class CallTaxiForm(Form):
     name = StringField('name')
     phone = StringField('phone')
@@ -18,6 +19,7 @@ class CallTaxiForm(Form):
     to_lng = StringField('to_lng', [validators.DataRequired()])
     destination = StringField('destination', [validators.DataRequired()])
 
+
 class DriverLocationForm(Form):
     driverid = StringField('driverid', [validators.DataRequired()])
     date = StringField('date', [validators.DataRequired()])
@@ -25,11 +27,12 @@ class DriverLocationForm(Form):
     location_lat = StringField('location_lat', [validators.DataRequired()])
     location_lng = StringField('location_lng', [validators.DataRequired()])
     name = StringField('name')
-    status = StringField('status') # updated by the server
+    status = StringField('status')  # updated by the server
+
 
 app = Flask(__name__)
 sslify = SSLify(app)
-app.debug = False
+app.debug = True
 
 # initialize database connection settings
 mysql = MySQL()
@@ -70,41 +73,42 @@ bcrypt = Bcrypt(app)
 
 @app.route("/", methods=['GET', 'POST'])
 def welcome():
-    if request.method == "POST":
-        print "POST to main page"
-        code = bcrypt.generate_password_hash(request.form['code'])
+    print "Access main page..."
+    return render_template('index.html')
 
-        if bcrypt.check_password_hash(code, 'driver1'):
-            print "Driver 1 requested"
-            return redirect(url_for("driver", driverid=1))
-        elif bcrypt.check_password_hash(code, 'driver2'):
-            print "Driver 2 requested"
-            return redirect(url_for("driver", driverid=2))
-        elif bcrypt.check_password_hash(code, 'driver3'):
-            print "Driver 3 requested"
-            return redirect(url_for("driver", driverid=3))
-        elif bcrypt.check_password_hash(code, 'caller'):
-            print "Customer requested"
-            return redirect(url_for("caller", requesttype=1))
-        elif bcrypt.check_password_hash(code, 'callcentre'):
-            print "Centre requested"
-            return redirect(url_for("callcentre"))
 
-        return render_template('index.html')
+@app.route("/login", methods=["POST"])
+def login():
+    print "Login in with password"
+    code = bcrypt.generate_password_hash(request.form['code'])
+
+    if bcrypt.check_password_hash(code, 'driver1'):
+        print "Driver 1 requested"
+        return redirect(url_for("driver", driverid=1))
+    elif bcrypt.check_password_hash(code, 'driver2'):
+        print "Driver 2 requested"
+        return redirect(url_for("driver", driverid=2))
+    elif bcrypt.check_password_hash(code, 'driver3'):
+        print "Driver 3 requested"
+        return redirect(url_for("driver", driverid=3))
+    elif bcrypt.check_password_hash(code, 'caller'):
+        print "Customer requested"
+        return render_template("caller.html")
+    elif bcrypt.check_password_hash(code, 'callcentre'):
+        print "Centre requested"
+        return redirect(url_for("callcentre"))
     else:
-        print "GET to main page"
         return render_template('index.html')
 
-
+'''
 @app.route("/caller", methods=['GET', 'POST'])
 def caller():
     if request.method == "POST":
 
-
-
         return render_template('caller.html')
     else:
         return render_template('index.html')
+'''
 
 
 @app.route("/calltaxi", methods=['POST'])
@@ -121,7 +125,7 @@ def calltaxi():
 
     form = CallTaxiForm(request.form)
     if form.validate():
-                # validate each fields in the request form
+        # validate each fields in the request form
         # fields in request: name , to_lat , to_lng, from_lng , from_lat, phone, time, date, destination
         name = "anonymous" if request.form.get('name', None) == None or len(request.form.get('name')) == 0 else \
             request.form['name']
@@ -233,6 +237,7 @@ def calltaxi():
         return json.dumps(res)
 
     else:
+        print "Call a taxi request form is not valid..."
         res = form.errors
         res['status'] = "INVALID_REQUEST"
         return json.dumps(res)
@@ -240,38 +245,30 @@ def calltaxi():
 
 @app.route("/driver", methods=['GET', 'POST'])
 def driver():
-    if request.method == "POST":
-        print "--------------"
+    id = request.args.get('driverid')
 
-        id = request.args.get('driverid')
+    if id == None:
+        # id not shown: invalid request
+
+        return render_template('index.html')
+    else:
+        # check if there are previous info could be used
+        '''
         conn = mysql.connect()
         cur = conn.cursor()
+        driver_info_sql = "SELECT * FROM driver WHERE id = %s;"
+        print driver_info_sql
+        cur.execute(driver_info_sql, (id,))
 
-        if id == None:
-            # id not shown: invalid request
+        row = cur.fetchone()
+        cur.close()
+        conn.close()
+        '''
 
-            return render_template('index.html')
-        else:
-            # check if there are previous info could be used
-            '''
-            conn = mysql.connect()
-            cur = conn.cursor()
-            driver_info_sql = "SELECT * FROM driver WHERE id = %s;"
-            print driver_info_sql
-            cur.execute(driver_info_sql, (id,))
+        print "[Initial Request]: no need to update"
 
-            row = cur.fetchone()
-            cur.close()
-            conn.close()
-            '''
+    return render_template('driver.html', driverid=id)
 
-            print "[Initial Request]: no need to update"
-
-
-        return render_template('driver.html', driverid=id)
-
-    else:
-        return render_template('index.html')
 
 @app.route("/update_driver_location", methods=['POST'])
 def update_driver_location():
@@ -283,7 +280,7 @@ def update_driver_location():
         # update driver location & change status
         # fields in request: name , to_lat , to_lng, from_lng , from_lat, phone, time, date, destination
         name = "anonymous" if request.form.get('name', None) == None or len(request.form.get('name')) == 0 else \
-        request.form['name']
+            request.form['name']
         location_lat = "22.0" if request.form.get('location_lat', None) == None or len(
             request.form.get('location_lat')) == 0 else str(round(float(request.form['location_lat']), 8))
         location_lng = "143.0" if request.form.get('location_lng', None) == None or len(
@@ -308,7 +305,6 @@ def update_driver_location():
 
             status = 2  # on-call
             sql = "INSERT INTO driver (driverid, date, time, location_lat, location_lng, name, status) VALUES (%s, %s, %s, %s, %s, %s, %s) "
-
 
             assignedDriver = -1
 
@@ -343,12 +339,14 @@ def update_driver_location():
             return json.dumps({"status": "OK", "update": 1})
     else:
         # the input form is not valid
+        print "Update_driver_location form is not valid..."
         res = form.errors
         res['status'] = "INVALID_REQUEST"
         return json.dumps(res)
 
+
 @app.route("/pickup", methods=["POST"])
-def pickup ():
+def pickup():
     global driver1status, driver2status, driver3status
     print "========================================================"
     print "=============== Process pick up request ================"
@@ -359,7 +357,7 @@ def pickup ():
 
     if id == 1 and driver1status == 2:
         print "Success assigned driver 1 for hired..."
-        driver1status = 3 # set driver to available
+        driver1status = 3  # set driver to available
         return json.dumps({"status": "OK"})
     elif id == 2 and driver2status == 2:
         print "Success assigned driver 2 for hired..."
@@ -369,15 +367,16 @@ def pickup ():
         print "Success assigned driver 3 for hired..."
         driver3status = 3
 
-        return json.dumps({ "status" : "OK" })
+        return json.dumps({"status": "OK"})
     # else return error
     else:
+        print "pick_up request is not valid for you are not on-call..."
         return json.dumps({"status": "INVALID_REQUEST", "error": "You are not on-call..."})
     print "========================================================"
 
 
 @app.route("/endtrip", methods=["POST"])
-def end_trip ():
+def end_trip():
     global driver1status, driver2status, driver3status
     print "========================================================"
     print "=============== Process end trip request ================"
@@ -388,8 +387,8 @@ def end_trip ():
 
     id = int(request.form['driverid'])
     if id == 1 and driver1status == 3:
-        driver1status = 1 # set driver to available
         print "Success assigned driver 1 for end trip..."
+        driver1status = 1  # set driver to available
         return json.dumps({"status": "OK"})
     elif id == 2 and driver2status == 3:
         print "Success assigned driver 2 for end trip..."
@@ -398,10 +397,10 @@ def end_trip ():
     elif id == 3 and driver3status == 3:
         print "Success assigned driver 3 for end trip..."
         driver3status = 1
-
-        return json.dumps({ "status" : "OK" })
+        return json.dumps({"status": "OK"})
     # else return error
     else:
+        print "end_trip request is not valid for you are not hired..."
         return json.dumps({"status": "INVALID_REQUEST", "error": "You are not hired..."})
     print "========================================================"
 

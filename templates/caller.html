@@ -233,9 +233,9 @@
                 feedback = JSON.parse(data);
                 console.log(feedback.status == "INVALID_REQUEST");
                 if (feedback.status == "INVALID_REQUEST") {
-                    error_message = "Invalid Request:<br />";
+                    error_message = "";
                     for (var key in feedback) {
-                        if (feedback.hasOwnProperty(key)) {
+                        if (feedback.hasOwnProperty(key) && key != 'status') {
                             error_message += (key + " is " + feedback[key] + "<br />");
                         }
                     }

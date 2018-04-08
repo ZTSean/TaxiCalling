@@ -70,9 +70,9 @@ function showPosition(position) {
     // if the location data is not consistent with previous one
     /*
     if (document.getElementById("driver-location_lat").value != geolocation.lat ||
-    document.getElementById("driver-location_lng").value != geolocation.lng ) {
+    document.getElementById("driver-location_lng").value != geolocation.lng ) {*/
         document.getElementById("driver-location_lat").value == geolocation.lat;
-        document.getElementById("driver-location_lng").value == geolocation.lng;*/
+        document.getElementById("driver-location_lng").value == geolocation.lng;
 
         document.getElementById("lat").value = geolocation.lat.toFixed(7);
         document.getElementById("lng").value = geolocation.lng.toFixed(7);
@@ -92,16 +92,25 @@ function showPosition(position) {
         $.ajax({
             url: '/update_driver_location', // form action url
             type: 'POST', // form submit method get/post
-            dataType: 'html', // request type html/json/xml
+            dataType: 'json', // request type html/json/xml
             async:false,
             data: $('#form-driver-status').serialize(), // serialize form data 
-            success: function(data) {
+            success: function(feedback) {
                 console.log("Success send driver real time location data to the server...");
 
-                feedback = JSON.parse(data);
+                console.log("---------");
+                console.log(typeof feedback)
+                console.log(feedback);
+                console.log("---------");
+
                 console.log(feedback.status == "INVALID_REQUEST");
                 if (feedback.status == "INVALID_REQUEST") {
-                    error_message = "Invalid Request:<br />";
+                    error_message = "";
+                    for (var key in feedback) {
+                        if (feedback.hasOwnProperty(key) && key != 'status') {
+                            error_message += (key + " is " + feedback[key] + "<br />");
+                        }
+                    }
 
                     $("#modal-feedback-title").html("Invalid Request");
                     $("#modal-feedback").html(error_message);

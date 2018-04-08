@@ -267,6 +267,8 @@
 
 
     $("#btn-pick-up").hide();
+    $("#btn-end-trip").hide();
+
     $("#btn-pick-up").click(function () {
 
         data = {
@@ -279,11 +281,9 @@
             dataType: 'json', // request type html/json/xml
             async:false,
             data: data, // serialize form data
-            success: function(data) {
+            success: function(feedback) {
                 console.log("Success send picked current customer up request to the server...");
 
-                feedback = JSON.parse(data);
-                console.log(feedback.status == "INVALID_REQUEST");
                 if (feedback.status == "INVALID_REQUEST") {
                     error_message = feedback.error;
 
@@ -301,8 +301,8 @@
                     $("#btn-end-trip").show();
 
                     // set driver's status in UI to hired
-                    $('#status_hired').prop("checked", true)
-                    $('#status_on-call').prop("checked", false)
+                    $('#status_hired').prop("checked", true);
+                    $('#status_on-call').prop("checked", false);
                     $('#status_available').prop("checked", false)
                 }
             },
@@ -314,7 +314,7 @@
         });
     });
 
-    $("#btn-end-trip").hide();
+
     $("#btn-end-trip").click(function () {
 
         data = {
@@ -327,11 +327,9 @@
             dataType: 'json', // request type html/json/xml
             async:false,
             data: data, // serialize form data
-            success: function(data) {
+            success: function(feedback) {
                 console.log("Success send end current trip request to the server...");
 
-                feedback = JSON.parse(data);
-                console.log(feedback.status == "INVALID_REQUEST");
                 if (feedback.status == "INVALID_REQUEST") {
                     error_message = feedback.error;
 
