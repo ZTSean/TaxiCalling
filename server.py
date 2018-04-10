@@ -259,6 +259,9 @@ def update_caller_location():
         # in on-call status, on the way to pick up
         return json.dumps(
             {"status": pendingRequest['status'], 'lat': pendingRequest['lat'], 'lng': pendingRequest['lng']})
+    else:
+        return json.dumps({"status": 2})
+
 
 
 @app.route("/driver", methods=['GET', 'POST'])
