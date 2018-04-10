@@ -123,8 +123,8 @@ def calltaxi():
     print "================ Process taxi request =================="
     print "--------------------------------------------------------"
     print "---------------- Request params ------------------------"
-    for key, value in request.form.iteritems():
-        print key, value, len(value)
+    #for key, value in request.form.iteritems():
+    #    print key, value, len(value)
     print "--------------------------------------------------------"
 
     form = CallTaxiForm(request.form)
