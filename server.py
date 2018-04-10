@@ -220,6 +220,8 @@ def calltaxi():
         print json.dumps(res['rows'])
         for i in range(len(res['rows'])):
             availableDriver = res['rows'][i]
+            if availableDriver['elements'][0]['status'] != 'OK':
+                continue
             tmp = int(availableDriver['elements'][0]['duration']['value'])
             if tmp < minTime:
                 minTime = tmp
