@@ -5,11 +5,14 @@
     <meta charset="utf-8">
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 
     <link href="{{ url_for('static', filename='css/map.css') }}" rel="stylesheet">
 
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -80,94 +83,35 @@
     <!-- /.row -->
 </div>
 
+<button type="button" class="btn btn-info btn-lg" id="feedback-alert" style="display: none" data-toggle="modal" data-target="#myModal"></button>
+
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                  <h4 id="call-taxi-feedback-title" class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+              </div>
+              <div class="modal-body">
+                <p id="call-taxi-feedback"></p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
 <!-- /.container -->
 <script src="{{ url_for('static', filename='js/callcentremap.js') }}"></script>
 
 <script>
-    var mapId = "map";
 
-    function initMap() {
-        var map = new google.maps.Map(document.getElementById(mapId), {
-            center: {lat: 22.2823571, lng: 114.13887319999999},
-            zoom: 15
-        });
-
-        // traverse each driver's data & add marker with infowindow
-        var tmp1 = {{ driverdata | safe }};
-
-        var drivermakers = [];
-        var callermakers = [];
-
-        for (let i = 0; i < tmp1.length; i++) {
-            //console.log(tmp[i]);
-            let marker = new google.maps.Marker({
-                map: map,
-                position: {lat: tmp1[i]['location_lat'], lng: tmp1[i]['location_lng']},
-                icon: {
-                    url: "http://moziru.com/images/taxi-clipart-transparent-8.png",
-                    scaledSize: new google.maps.Size(48, 48)
-                }
-            });
-
-            // add info window
-            let infowindow = new google.maps.InfoWindow();
-            marker.addListener('click', function () {
-
-                infowindow.close();
-                infowindow.setContent(fillInfoWindowContentDriver(tmp1[i]));
-                infowindow.open(map, marker);
-            });
-
-            drivermakers.push(marker);
-        }
-
-        var tmp2 = {{ callerdata | safe }};
-
-        for (let i = 0; i < tmp2.length; i++) {
-            //console.log(tmp2[i]);
-            let marker = new google.maps.Marker({
-                map: map,
-                position: {lat: tmp2[i]['from_lat'], lng: tmp2[i]['from_lng']},
-                icon: {
-                    url: "https://cdn1.iconfinder.com/data/icons/traveling-8/432/taxi-512.png",
-                    scaledSize: new google.maps.Size(48, 48)
-                }
-            });
-
-            // add info window
-            let infowindow = new google.maps.InfoWindow();
-            marker.addListener('click', function () {
-
-                infowindow.close();
-                infowindow.setContent(fillInfoWindowContentCaller(tmp2[i]));
-                infowindow.open(map, marker);
-            });
-
-            drivermakers.push(marker);
-        }
-    }
-
-    function fillInfoWindowContentDriver(entry) {
-        var status = "Available";
-        if (entry.status == 2) status = "Hired";
-        else if (entry.status == 3) status = "On-Call";
-
-        var content = '<div id="infowindow-content">' +
-            '<span id="driver-id" class="title">Driver ID: ' + entry.id + '</span><br>' +
-            'Name: <span id="driver-name">' + entry.name + '</span><br>' +
-            'Status: <span id="driver-status">' + status + '</span><br></div>';
-
-        return content;
-    }
-
-    function fillInfoWindowContentCaller(entry) {
-
-        var content = '<div id="infowindow-content">' +
-            'Name: <span id="caller-name">' + entry.name + '</span><br>' +
-            'Destination: <span id="caller-status">' + entry.destination + '</span><br></div>';
-
-        return content;
-    }
 
 </script>
 

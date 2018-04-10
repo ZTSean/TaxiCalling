@@ -226,7 +226,7 @@
     var reqortHandle;
 
     //geolocate();
-    reportHandle = setInterval(geolocate, reportFreq)
+    reportHandle = setInterval(geolocate, reportFreq);
 
     $("#report_1_min").click(function() {
         reportFreq = document.getElementById('report_1_min').value;
@@ -363,6 +363,7 @@
             }
         });
     });
+
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZ2cAeiEseW9hyqSjuJnsgbKS5DLVPvOs&libraries=places&callback=initMap" async defer></script>
 </body>
