@@ -217,6 +217,7 @@ def calltaxi():
 
         # ----------- Process result & find closest driver -----------
         minTime = 10000000
+        minTimeText = ""
         print json.dumps(res['rows'])
         for i in range(len(res['rows'])):
             availableDriver = res['rows'][i]
@@ -225,6 +226,7 @@ def calltaxi():
             tmp = int(availableDriver['elements'][0]['duration']['value'])
             if tmp < minTime:
                 minTime = tmp
+                minTimeText = availableDriver['elements'][0]['duration']['text']
                 assignedDriver = availableDrivers[i]
 
         if assignedDriver == -1:
@@ -247,7 +249,7 @@ def calltaxi():
         conn.close()
         print "========================================================"
 
-        return json.dumps({"status": "OK", "assigned_driver": assignedDriver, "time": minTime})
+        return json.dumps({"status": "OK", "assigned_driver": assignedDriver, "time": minTimeText})
 
     else:
         print "Call a taxi request form is not valid..."

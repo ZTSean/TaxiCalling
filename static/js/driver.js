@@ -87,7 +87,11 @@ function showPosition(position) {
 
         // filling the form
         var now = new Date();
-        var date = now.toISOString().slice(0, 19).replace('T', ' ').split(" ");
+        //var date = now.toISOString().slice(0, 19).replace('T', ' ').split(" ");
+
+        var hongkong_time = moment.tz(now, "Asia/Hong_Kong");
+        console.log("hong kong time:" + hongkong_time.format());
+        var date = hongkong_time.format("YYYY-MM-DD HH:mm:ss").split(" ");
 
         console.log($('form').serialize());
         $.ajax({

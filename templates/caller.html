@@ -47,6 +47,8 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.14/moment-timezone.min.js"></script>
+
 </head>
 
 <body>
@@ -202,8 +204,12 @@
 
     $("#btn-call-taxi").click(function () {
         // get current time
-        let now = new Date();
-        let date = now.toISOString().slice(0, 19).replace('T', ' ').split(" ");
+        var now = new Date();
+        //var date = now.toISOString().slice(0, 19).replace('T', ' ').split(" ");
+
+        var hongkong_time = moment.tz(now, "Asia/Hong_Kong");
+        console.log("hong kong time:" + hongkong_time.format());
+        var date = hongkong_time.format("YYYY-MM-DD HH:mm:ss").split(" ");
 
         document.getElementById('call-taxi-date').value = date[0];
         document.getElementById('call-taxi-time').value = date[1];
@@ -245,7 +251,7 @@
 
                 } else if (feedback.status == "OK") {
                     $("#call-taxi-feedback-title").html("Congrats!");
-                    $("#call-taxi-feedback").html("Your request has been processed! Driver " + feedback.assigned_driver +  " will pick you up in " + feedback.time + " mins.");
+                    $("#call-taxi-feedback").html("Your request has been processed! Driver " + feedback.assigned_driver +  " will pick you up in " + feedback.time + ".");
                     $("#myModal").modal("show");
 
                     // start real time show driver location
