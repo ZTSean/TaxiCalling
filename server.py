@@ -162,8 +162,8 @@ def calltaxi():
         '''
 
         ### test use from_lat, from_lng
-        from_lat = 33.8179361
-        from_lng = -84.45219920000001
+        #from_lat = 33.8179361
+        #from_lng = -84.45219920000001
 
         # pull all driver information from database ========================================
         conn = mysql.connect()
@@ -226,6 +226,9 @@ def calltaxi():
             if tmp < minTime:
                 minTime = tmp
                 assignedDriver = availableDrivers[i]
+
+        if assignedDriver == -1:
+            return json.dumps({"status": "INVALID_REQUEST", "error": "No driver available!"})
 
         pendingRequest['lat'] = from_lat
         pendingRequest['lng'] = from_lng
