@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="53252b4f-a2fc-41de-b1af-6ddf58b9fcad" name="Default" comment="update: driver page will see the location">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server.py" afterPath="$PROJECT_DIR$/server.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/driver.js" afterPath="$PROJECT_DIR$/static/js/driver.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/callcentre.html" afterPath="$PROJECT_DIR$/templates/callcentre.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/caller.html" afterPath="$PROJECT_DIR$/templates/caller.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/driver.html" afterPath="$PROJECT_DIR$/templates/driver.html" />
     </list>
@@ -63,8 +59,8 @@
       <file leaf-file-name="caller.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/caller.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="210" column="62" lean-forward="false" selection-start-line="210" selection-start-column="62" selection-end-line="210" selection-end-column="62" />
+            <state relative-caret-position="531">
+              <caret line="52" column="0" lean-forward="true" selection-start-line="49" selection-start-column="4" selection-end-line="52" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -87,7 +83,7 @@
       <file leaf-file-name="callcentre.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/callcentre.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-550">
+            <state relative-caret-position="-366">
               <caret line="30" column="9" lean-forward="true" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
               <folding />
             </state>
@@ -97,8 +93,8 @@
       <file leaf-file-name="driver.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/driver.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="35" column="22" lean-forward="false" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="22" />
+            <state relative-caret-position="293">
+              <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -186,11 +182,11 @@
         <option value="$PROJECT_DIR$/templates/index.html" />
         <option value="$PROJECT_DIR$/static/js/caller.js" />
         <option value="$PROJECT_DIR$/static/js/callcentremap.js" />
-        <option value="$PROJECT_DIR$/templates/driver.html" />
         <option value="$PROJECT_DIR$/templates/callcentre.html" />
         <option value="$PROJECT_DIR$/static/js/driver.js" />
         <option value="$PROJECT_DIR$/server.py" />
         <option value="$PROJECT_DIR$/templates/caller.html" />
+        <option value="$PROJECT_DIR$/templates/driver.html" />
       </list>
     </option>
   </component>
@@ -901,26 +897,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/driver.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="35" column="22" lean-forward="false" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="22" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/caller.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="210" column="62" lean-forward="false" selection-start-line="210" selection-start-column="62" selection-end-line="210" selection-end-column="62" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -939,9 +915,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/caller.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="531">
+          <caret line="52" column="0" lean-forward="true" selection-start-line="49" selection-start-column="4" selection-end-line="52" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/driver.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/callcentre.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-550">
+        <state relative-caret-position="-366">
           <caret line="30" column="9" lean-forward="true" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
           <folding />
         </state>
