@@ -32,7 +32,7 @@ class DriverLocationForm(Form):
 
 app = Flask(__name__)
 sslify = SSLify(app)
-app.debug = False
+app.debug = True
 
 
 # initialize database connection settings
@@ -56,10 +56,8 @@ mysql.init_app(app)
 
 assignedDriver = -1
 pendingRequest = dict()
-pendingRequest['status'] = -1  # no pending request
-driver1status = 1
-driver2status = 1
-driver3status = 1
+pendingRequest['status'] = 1  # no pending request
+pendingRequest['assigned_driver'] = -1
 driver_update_entryid = [1, 1, 1]
 bcrypt = Bcrypt(app)
 
@@ -234,7 +232,6 @@ def calltaxi():
 
         pendingRequest['lat'] = from_lat
         pendingRequest['lng'] = from_lng
-        pendingRequest['status'] = 1  # set to on-call status
         print "Assigned Driver: " + str(assignedDriver)
 
         # write new request to the database =================================================
@@ -262,12 +259,12 @@ def calltaxi():
 def update_caller_location():
     global assignedDriver, driver1status, driver2status, driver3status, pendingRequest
 
-    if pendingRequest['status'] == 1:
+    if pendingRequest['status'] == 2:
         # in on-call status, on the way to pick up
         return json.dumps(
-            {"status": pendingRequest['status'], 'lat': pendingRequest['lat'], 'lng': pendingRequest['lng']})
+            {"status": pendingRequest['status'], 'lat': pendingRequest['lat'], 'lng': pendingRequest['lng'], 'driverid': pendingRequest['assigned_driver']})
     else:
-        return json.dumps({"status": 2})
+        return json.dumps({"status": 3})
 
 
 
@@ -300,7 +297,7 @@ def driver():
 
 @app.route("/update_driver_location", methods=['POST'])
 def update_driver_location():
-    global assignedDriver, driver1status, driver2status, driver3status, pendingRequest
+    global assignedDriver, pendingRequest
     form = DriverLocationForm(request.form)
     if form.validate():
         id = int(request.form.get('driverid'))
@@ -316,7 +313,7 @@ def update_driver_location():
         time = "00:00:00" if request.form.get('time', None) == None else request.form['time']
         date = "2018-02-05" if request.form.get('date', None) == None else request.form['date']
 
-        print "Current Assigned driver: " + str(assignedDriver)
+        print "Current Assigned driver to be processed: " + str(assignedDriver)
 
         if assignedDriver != -1 and id == assignedDriver:
             print "Driver " + str(id) + " has been assigned customer..."
@@ -324,20 +321,15 @@ def update_driver_location():
             cur = conn.cursor()
             # driver has been assigned to a customer
 
-            if id == 1:
-                driver1status = 2
-            elif id == 2:
-                driver2status = 2
-            elif id == 3:
-                driver3status = 2
-
-            status = 2  # on-call
+            # update driver location and status
             sql = "INSERT INTO driver (driverid, date, time, location_lat, location_lng, name, status) VALUES (%s, %s, %s, %s, %s, %s, %s) "
 
             # update global var
+            pendingRequest['assigned_driver'] = assignedDriver
+            pendingRequest['status'] = 2 # set to on-call
             assignedDriver = -1
 
-            cur.execute(sql, (id, date, time, location_lat, location_lng, name, status))
+            cur.execute(sql, (id, date, time, location_lat, location_lng, name, pendingRequest['status']))
             conn.commit()
 
             cur.close()
@@ -348,7 +340,7 @@ def update_driver_location():
             # return status for update, caller location for marker
             # update == 2, need update in UI
 
-            return json.dumps({"status": "OK", "update": 2, "driver_status": 2, "lat": pendingRequest['lat'],
+            return json.dumps({"status": "OK", "update": 2, "driver_status": pendingRequest['status'], "lat": pendingRequest['lat'],
                                "lng": pendingRequest['lng']})
         else:
             print "Driver " + str(id) + " not being assigned..."
@@ -357,10 +349,9 @@ def update_driver_location():
             cur = conn.cursor()
             # driver has been assigned to a customer
 
-            status = 1 if request.form.get('status', None) == None else request.form['status']
             sql = "INSERT INTO driver (driverid, date, time, location_lat, location_lng, name, status) VALUES (%s, %s, %s, %s, %s, %s, %s) "
 
-            cur.execute(sql, (id, date, time, location_lat, location_lng, name, status))
+            cur.execute(sql, (id, date, time, location_lat, location_lng, name, pendingRequest['status']))
             conn.commit()
 
             cur.close()
@@ -386,21 +377,9 @@ def pickup():
     # check whether the driver is on call
     id = int(request.form['driverid'])
 
-    if id == 1 and driver1status == 2:
-        print "Success assigned driver 1 for hired..."
-        pendingRequest['status'] = 2
-        driver1status = 3  # set driver to available
-        return json.dumps({"status": "OK"})
-    elif id == 2 and driver2status == 2:
-        print "Success assigned driver 2 for hired..."
-        pendingRequest['status'] = 2
-        driver2status = 3
-        return json.dumps({"status": "OK"})
-    elif id == 3 and driver3status == 2:
-        print "Success assigned driver 3 for hired..."
-        pendingRequest['status'] = 2
-        driver3status = 3
-
+    if id == pendingRequest['assigned_driver'] and pendingRequest['status'] == 2:
+        print "Success assigned driver " + str(pendingRequest['assigned_driver']) + " for hired..."
+        pendingRequest['status'] = 3
         return json.dumps({"status": "OK"})
     # else return error
     else:
@@ -420,20 +399,10 @@ def end_trip():
     # check whether the driver is hired
 
     id = int(request.form['driverid'])
-    if id == 1 and driver1status == 3:
-        print "Success assigned driver 1 for end trip..."
-        pendingRequest['status'] = -1
-        driver1status = 1  # set driver to available
-        return json.dumps({"status": "OK"})
-    elif id == 2 and driver2status == 3:
-        print "Success assigned driver 2 for end trip..."
-        pendingRequest['status'] = -1
-        driver2status = 1
-        return json.dumps({"status": "OK"})
-    elif id == 3 and driver3status == 3:
-        print "Success assigned driver 3 for end trip..."
-        pendingRequest['status'] = -1
-        driver3status = 1
+    if id == pendingRequest['assigned_driver'] and pendingRequest['status'] == 3:
+        print "Success assigned driver " + str(pendingRequest['assigned_driver']) + " for end trip..."
+        pendingRequest['status'] = 1 # set driver to available
+        pendingRequest['assigned_driver'] = -1 # clear assigned driver
         return json.dumps({"status": "OK"})
     # else return error
     else:
@@ -451,28 +420,31 @@ def callcentre():
         conn = mysql.connect()
         cur = conn.cursor()
 
-        driverdata = {"driver1_path_data": [], "driver2_path_data": [], "driver3_path_data": []}
+        data = {"driver1_path_data": [], "driver2_path_data": [], "driver3_path_data": []}
         for i in range(3):
             print "-------------------"
-            driver_route_sql = "(SELECT * FROM driver WHERE driverid = " + str(i + 1) + " AND id >= " + str(driver_update_entryid[i])+ " ORDER BY date, time)"
+            print "Collect most recent 400 location data for driver " + str(i+1) + " to draw path on map..."
+            driver_route_sql = "(SELECT * FROM driver WHERE driverid = " + str(i + 1) + " AND id >= " + str(driver_update_entryid[i])+ " ORDER BY date, time) LIMIT 400"
             cur.execute(driver_route_sql)  # Get address details by ID
 
 
             for row in cur:
                 # (1, 1, datetime.date(2018, 2, 4), datetime.timedelta(0, 31269), Decimal( &  # 39;22.27931130&#39;), Decimal(&#39;114.13650370&#39;), u&#39;anonymous&#39;, 1)
-                if driver_update_entryid[i] < int(row[0]):
-                    print "Most update entry id for driver " + str(i) + ": " + str(row[0])
-                    driver_update_entryid[i] = int(row[0])
                 geolocation = {'lat': float(row[4]), 'lng': float(row[5])}
-                driverdata['driver' + str(i + 1) + "_path_data"].append(geolocation)
+                data['driver' + str(i + 1) + "_path_data"].append(geolocation)
 
-            print "-------------------"
-        callerdata = []
-        '''
+            # add driver status data to response
+            data['driver' + str(i+1) + "_status"] = 1
+            if pendingRequest['assigned_driver'] == (i+1):
+                data['driver_' + str(i + 1) + "_status"] = pendingRequest['status']
+
+        print "-------------------"
+
+
+        print "Add caller request data to response..."
         # retrieve most recent caller data from request table
         cur.execute("SELECT * FROM request ORDER BY id DESC;")
         row = cur.fetchone()
-
 
         if (row != None):
             formattedRow = {}
@@ -487,14 +459,15 @@ def callcentre():
             formattedRow['destination'] = row[7]
             formattedRow['to_lat'] = float(row[8])
             formattedRow['to_lng'] = float(row[9])
-            callerdata.append(formattedRow)
-        '''
+            data['caller'] = formattedRow
+            print formattedRow
 
+        print "-------------------"
         cur.close()
         conn.close()
 
-        print "driver data:" + json.dumps(driverdata)
-        return json.dumps(driverdata)
+        print "Data:" + json.dumps(data)
+        return json.dumps(data)
     else:
         return render_template('callcentre.html')
 

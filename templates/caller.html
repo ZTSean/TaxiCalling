@@ -265,8 +265,8 @@
                             async: false,
                             data: $('form').serialize(),
                             success: function(feedback) {
-                                // update == 1: start picking up process, need to show driver location
-                                if (feedback.status == 1) {
+                                // update == 2: start picking up process, need to show driver location
+                                if (feedback.status == 2) {
                                     if (driverMarker == undefined) {
                                         driverMarker = new google.maps.Marker({
                                             map: map,
