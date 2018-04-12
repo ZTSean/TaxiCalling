@@ -34,7 +34,6 @@ app = Flask(__name__)
 sslify = SSLify(app)
 app.debug = False
 
-
 # initialize database connection settings
 mysql = MySQL()
 
@@ -97,7 +96,7 @@ def login():
         return render_template("caller.html")
     elif bcrypt.check_password_hash(code, 'callcentre'):
         print "Centre requested"
-        return redirect(url_for("callcentre"))
+        return render_template('callcentre.html')
     else:
         return render_template('index.html')
 
@@ -121,7 +120,7 @@ def calltaxi():
     print "================ Process taxi request =================="
     print "--------------------------------------------------------"
     print "---------------- Request params ------------------------"
-    #for key, value in request.form.iteritems():
+    # for key, value in request.form.iteritems():
     #    print key, value, len(value)
     print "--------------------------------------------------------"
 
@@ -160,8 +159,8 @@ def calltaxi():
         '''
 
         ### test use from_lat, from_lng
-        #from_lat = 33.8179361
-        #from_lng = -84.45219920000001
+        # from_lat = 33.8179361
+        # from_lng = -84.45219920000001
 
         # pull all driver information from database ========================================
         conn = mysql.connect()
@@ -265,10 +264,10 @@ def update_caller_location():
     if pendingRequest['status'] == 2:
         # in on-call status, on the way to pick up
         return json.dumps(
-            {"status": pendingRequest['status'], 'lat': pendingRequest['lat'], 'lng': pendingRequest['lng'], 'driverid': pendingRequest['assigned_driver']})
+            {"status": pendingRequest['status'], 'lat': pendingRequest['lat'], 'lng': pendingRequest['lng'],
+             'driverid': pendingRequest['assigned_driver']})
     else:
         return json.dumps({"status": 3})
-
 
 
 @app.route("/driver", methods=['GET', 'POST'])
@@ -329,7 +328,7 @@ def update_driver_location():
 
             # update global var
             pendingRequest['assigned_driver'] = assignedDriver
-            pendingRequest['status'] = 2 # set to on-call
+            pendingRequest['status'] = 2  # set to on-call
             assignedDriver = -1
 
             cur.execute(sql, (id, date, time, location_lat, location_lng, name, pendingRequest['status']))
@@ -343,8 +342,10 @@ def update_driver_location():
             # return status for update, caller location for marker
             # update == 2, need update in UI
 
-            return json.dumps({"status": "OK", "update": 2, "driver_status": pendingRequest['status'], "lat": pendingRequest['lat'],
-                               "lng": pendingRequest['lng'], 'name': pendingRequest['name'], 'phone': pendingRequest['phone'], 'destination': pendingRequest['destination']})
+            return json.dumps(
+                {"status": "OK", "update": 2, "driver_status": pendingRequest['status'], "lat": pendingRequest['lat'],
+                 "lng": pendingRequest['lng'], 'name': pendingRequest['name'], 'phone': pendingRequest['phone'],
+                 'destination': pendingRequest['destination']})
         else:
             print "Driver " + str(id) + " not being assigned..."
             # driver not being assigned a new customer
@@ -404,8 +405,8 @@ def end_trip():
     id = int(request.form['driverid'])
     if id == pendingRequest['assigned_driver'] and pendingRequest['status'] == 3:
         print "Success assigned driver " + str(pendingRequest['assigned_driver']) + " for end trip..."
-        pendingRequest['status'] = 1 # set driver to available
-        pendingRequest['assigned_driver'] = -1 # clear assigned driver
+        pendingRequest['status'] = 1  # set driver to available
+        pendingRequest['assigned_driver'] = -1  # clear assigned driver
         return json.dumps({"status": "OK"})
     # else return error
     else:
@@ -414,64 +415,60 @@ def end_trip():
     print "========================================================"
 
 
-@app.route("/callcentre", methods=['GET', 'POST'])
+@app.route("/callcentre", methods=['POST'])
 def callcentre():
     global driver_update_entryid
-    if request.form['update'] == 1:
-        print "-------- Process Drawing request for callcentre --------"
-        # retrieve all driver data from driver table
-        conn = mysql.connect()
-        cur = conn.cursor()
+    print "-------- Process Drawing request for callcentre --------"
+    # retrieve all driver data from driver table
+    conn = mysql.connect()
+    cur = conn.cursor()
 
-        data = {"driver1_path_data": [], "driver2_path_data": [], "driver3_path_data": []}
-        for i in range(3):
-            print "-------------------"
-            print "Collect most recent 400 location data for driver " + str(i+1) + " to draw path on map..."
-            driver_route_sql = "(SELECT * FROM driver WHERE driverid = " + str(i + 1) + " AND id >= " + str(driver_update_entryid[i])+ " ORDER BY date, time) LIMIT 400"
-            cur.execute(driver_route_sql)  # Get address details by ID
-
-
-            for row in cur:
-                # (1, 1, datetime.date(2018, 2, 4), datetime.timedelta(0, 31269), Decimal( &  # 39;22.27931130&#39;), Decimal(&#39;114.13650370&#39;), u&#39;anonymous&#39;, 1)
-                geolocation = {'lat': float(row[4]), 'lng': float(row[5])}
-                data['driver' + str(i + 1) + "_path_data"].append(geolocation)
-
-            # add driver status data to response
-            data['driver' + str(i+1) + "_status"] = 1
-            if pendingRequest['assigned_driver'] == (i+1):
-                data['driver_' + str(i + 1) + "_status"] = pendingRequest['status']
-
+    data = {"driver1_path_data": [], "driver2_path_data": [], "driver3_path_data": []}
+    for i in range(3):
         print "-------------------"
+        print "Collect most recent 400 location data for driver " + str(i + 1) + " to draw path on map..."
+        driver_route_sql = "(SELECT * FROM driver WHERE driverid = " + str(i + 1) + " AND id >= " + str(
+            driver_update_entryid[i]) + " ORDER BY date, time) LIMIT 400"
+        cur.execute(driver_route_sql)  # Get address details by ID
 
+        for row in cur:
+            # (1, 1, datetime.date(2018, 2, 4), datetime.timedelta(0, 31269), Decimal( &  # 39;22.27931130&#39;), Decimal(&#39;114.13650370&#39;), u&#39;anonymous&#39;, 1)
+            geolocation = {'lat': float(row[4]), 'lng': float(row[5])}
+            data['driver' + str(i + 1) + "_path_data"].append(geolocation)
 
-        print "Add caller request data to response..."
-        # retrieve most recent caller data from request table
-        cur.execute("SELECT * FROM request ORDER BY id DESC;")
-        row = cur.fetchone()
+        # add driver status data to response
+        data['driver' + str(i + 1) + "_status"] = 1
+        if pendingRequest['assigned_driver'] == (i + 1):
+            data['driver_' + str(i + 1) + "_status"] = pendingRequest['status']
 
-        if (row != None):
-            formattedRow = {}
-            # (date, time, from_lat, from_lng, name, phone, destination, to_lat, to_lng)
-            formattedRow['id'] = row[0]
-            formattedRow['date'] = str(row[1])
-            formattedRow['time'] = str(row[2])
-            formattedRow['from_lat'] = float(row[3])
-            formattedRow['from_lng'] = float(row[4])
-            formattedRow['name'] = row[5]
-            formattedRow['phone'] = row[6]
-            formattedRow['destination'] = row[7]
-            formattedRow['to_lat'] = float(row[8])
-            formattedRow['to_lng'] = float(row[9])
-            data['caller'] = formattedRow
-            print formattedRow
+    print "-------------------"
 
-        print "-------------------"
-        cur.close()
-        conn.close()
+    print "Add caller request data to response..."
+    # retrieve most recent caller data from request table
+    cur.execute("SELECT * FROM request ORDER BY id DESC;")
+    row = cur.fetchone()
 
-        return json.dumps(data)
-    else:
-        return render_template('callcentre.html')
+    if (row != None):
+        formattedRow = {}
+        # (date, time, from_lat, from_lng, name, phone, destination, to_lat, to_lng)
+        formattedRow['id'] = row[0]
+        formattedRow['date'] = str(row[1])
+        formattedRow['time'] = str(row[2])
+        formattedRow['from_lat'] = float(row[3])
+        formattedRow['from_lng'] = float(row[4])
+        formattedRow['name'] = row[5]
+        formattedRow['phone'] = row[6]
+        formattedRow['destination'] = row[7]
+        formattedRow['to_lat'] = float(row[8])
+        formattedRow['to_lng'] = float(row[9])
+        data['caller'] = formattedRow
+        print formattedRow
+
+    print "-------------------"
+    cur.close()
+    conn.close()
+
+    return json.dumps(data)
 
 
 if __name__ == "__main__":
