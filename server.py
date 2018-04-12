@@ -257,7 +257,7 @@ def calltaxi():
 
 @app.route("/update_caller_location", methods=['POST'])
 def update_caller_location():
-    global assignedDriver, driver1status, driver2status, driver3status, pendingRequest
+    global assignedDriver, pendingRequest
 
     if pendingRequest['status'] == 2:
         # in on-call status, on the way to pick up
@@ -313,7 +313,7 @@ def update_driver_location():
         time = "00:00:00" if request.form.get('time', None) == None else request.form['time']
         date = "2018-02-05" if request.form.get('date', None) == None else request.form['date']
 
-        print "Current Assigned driver to be processed: " + str(assignedDriver)
+        print "Current assigned driver to be processed: " + str(assignedDriver)
 
         if assignedDriver != -1 and id == assignedDriver:
             print "Driver " + str(id) + " has been assigned customer..."
@@ -414,8 +414,9 @@ def end_trip():
 @app.route("/callcentre", methods=['GET', 'POST'])
 def callcentre():
     global driver_update_entryid
-
-    if request.method == "POST":
+    print type(request['update'])
+    if request['update'] == 1:
+        print "-------- Process Drawing request for callcentre --------"
         # retrieve all driver data from driver table
         conn = mysql.connect()
         cur = conn.cursor()
@@ -466,7 +467,6 @@ def callcentre():
         cur.close()
         conn.close()
 
-        print "Data:" + json.dumps(data)
         return json.dumps(data)
     else:
         return render_template('callcentre.html')
