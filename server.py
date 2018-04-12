@@ -10,7 +10,7 @@ from wtforms import Form, StringField, validators
 
 class CallTaxiForm(Form):
     name = StringField('name')
-    phone = StringField('phone')
+    phone = StringField('phone', [validators.DataRequired()])
     date = StringField('date', [validators.DataRequired()])
     time = StringField('time', [validators.DataRequired()])
     from_lat = StringField('from_lat', [validators.DataRequired()])
@@ -232,6 +232,9 @@ def calltaxi():
 
         pendingRequest['lat'] = from_lat
         pendingRequest['lng'] = from_lng
+        pendingRequest['name'] = name
+        pendingRequest['phone'] = phone
+        pendingRequest['desination'] = destination
         print "Assigned Driver: " + str(assignedDriver)
 
         # write new request to the database =================================================
@@ -341,7 +344,7 @@ def update_driver_location():
             # update == 2, need update in UI
 
             return json.dumps({"status": "OK", "update": 2, "driver_status": pendingRequest['status'], "lat": pendingRequest['lat'],
-                               "lng": pendingRequest['lng']})
+                               "lng": pendingRequest['lng'], 'name': pendingRequest['name'], 'phone': pendingRequest['phone'], 'destination': pendingRequest['destination']})
         else:
             print "Driver " + str(id) + " not being assigned..."
             # driver not being assigned a new customer
@@ -414,7 +417,6 @@ def end_trip():
 @app.route("/callcentre", methods=['GET', 'POST'])
 def callcentre():
     global driver_update_entryid
-    print type(request['update'])
     if request['update'] == 1:
         print "-------- Process Drawing request for callcentre --------"
         # retrieve all driver data from driver table

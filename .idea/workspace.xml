@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="53252b4f-a2fc-41de-b1af-6ddf58b9fcad" name="Default" comment="update: driver page will see the location">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server.py" afterPath="$PROJECT_DIR$/server.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/driver.js" afterPath="$PROJECT_DIR$/static/js/driver.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,18 +19,18 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-764">
-              <caret line="259" column="27" lean-forward="false" selection-start-line="259" selection-start-column="27" selection-end-line="259" selection-end-column="27" />
+            <state relative-caret-position="307">
+              <caret line="348" column="18" lean-forward="false" selection-start-line="348" selection-start-column="18" selection-end-line="348" selection-end-column="18" />
               <folding>
                 <element signature="e#0#94#0" expanded="true" />
-                <marker date="1523497404949" expanded="true" signature="6553:6592" ph="SELECT id FR... request" />
-                <marker date="1523497404949" expanded="true" signature="9839:10036" ph="INSERT INTO request... " />
-                <marker date="1523497404949" expanded="true" signature="13314:13433" ph="INSERT INTO driver... " />
-                <marker date="1523497404949" expanded="true" signature="14465:14584" ph="INSERT INTO driver... " />
-                <marker date="1523497404949" expanded="true" signature="18835:18873" ph="SELECT * FRO... request" />
+                <marker date="1523498532262" expanded="true" signature="6582:6621" ph="SELECT id FR... request" />
+                <marker date="1523498532262" expanded="true" signature="9997:10194" ph="INSERT INTO request... " />
+                <marker date="1523498532262" expanded="true" signature="13472:13591" ph="INSERT INTO driver... " />
+                <marker date="1523498532262" expanded="true" signature="14735:14854" ph="INSERT INTO driver... " />
+                <marker date="1523498532262" expanded="true" signature="19071:19109" ph="SELECT * FRO... request" />
               </folding>
             </state>
           </provider>
@@ -47,8 +49,8 @@
       <file leaf-file-name="driver.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/driver.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
-              <caret line="93" column="45" lean-forward="false" selection-start-line="93" selection-start-column="45" selection-end-line="93" selection-end-column="45" />
+            <state relative-caret-position="623">
+              <caret line="148" column="65" lean-forward="true" selection-start-line="148" selection-start-column="65" selection-end-line="148" selection-end-column="65" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -71,8 +73,8 @@
       <file leaf-file-name="callcentremap.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/callcentremap.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1821">
-              <caret line="45" column="23" lean-forward="false" selection-start-line="45" selection-start-column="23" selection-end-line="45" selection-end-column="23" />
+            <state relative-caret-position="653">
+              <caret line="160" column="75" lean-forward="true" selection-start-line="157" selection-start-column="18" selection-end-line="160" selection-end-column="75" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -83,7 +85,7 @@
       <file leaf-file-name="callcentre.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/callcentre.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="584">
+            <state relative-caret-position="440">
               <caret line="96" column="65" lean-forward="false" selection-start-line="96" selection-start-column="65" selection-end-line="96" selection-end-column="65" />
               <folding />
             </state>
@@ -93,8 +95,8 @@
       <file leaf-file-name="driver.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/driver.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2104">
-              <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+            <state relative-caret-position="307">
+              <caret line="305" column="31" lean-forward="false" selection-start-line="305" selection-start-column="28" selection-end-line="305" selection-end-column="31" />
               <folding>
                 <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -102,11 +104,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="caller.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="caller.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/caller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-18">
-              <caret line="118" column="61" lean-forward="false" selection-start-line="118" selection-start-column="61" selection-end-line="118" selection-end-column="61" />
+            <state relative-caret-position="305">
+              <caret line="29" column="50" lean-forward="true" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="50" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -128,10 +130,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>callcentre</find>
-      <find>drivermarker</find>
-      <find>request</find>
-      <find>drivermar</find>
       <find>for</find>
       <find>{{</find>
       <find>get</find>
@@ -146,18 +144,22 @@
       <find>js</find>
       <find>pick</find>
       <find>update_driver</find>
-      <find>update</find>
-      <find>pendingrequest</find>
       <find>fillInfoWindowContentDriver</find>
       <find>driver1_path_data</find>
       <find>driver1</find>
       <find>setContent</find>
       <find>driverdata</find>
       <find>set</find>
-      <find>setpath</find>
       <find>calltaxi</find>
       <find>assigneddriver</find>
       <find>date</find>
+      <find>update</find>
+      <find>print type</find>
+      <find>infowindow</find>
+      <find>end</find>
+      <find>setpath</find>
+      <find>pendingrequest</find>
+      <find>update_driver_</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -182,13 +184,13 @@
         <option value="$PROJECT_DIR$/static/js/map.js" />
         <option value="$PROJECT_DIR$/CallTaxiForm.py" />
         <option value="$PROJECT_DIR$/templates/index.html" />
-        <option value="$PROJECT_DIR$/static/js/caller.js" />
         <option value="$PROJECT_DIR$/templates/callcentre.html" />
-        <option value="$PROJECT_DIR$/static/js/driver.js" />
         <option value="$PROJECT_DIR$/templates/driver.html" />
         <option value="$PROJECT_DIR$/templates/caller.html" />
         <option value="$PROJECT_DIR$/static/js/callcentremap.js" />
+        <option value="$PROJECT_DIR$/static/js/caller.js" />
         <option value="$PROJECT_DIR$/server.py" />
+        <option value="$PROJECT_DIR$/static/js/driver.js" />
       </list>
     </option>
   </component>
@@ -490,11 +492,11 @@
           <caret line="251" column="97" lean-forward="false" selection-start-line="251" selection-start-column="97" selection-end-line="251" selection-end-column="97" />
           <folding>
             <element signature="e#0#94#0" expanded="true" />
-            <marker date="1523497404949" expanded="true" signature="6553:6592" ph="SELECT id FR... request" />
-            <marker date="1523497404949" expanded="true" signature="9839:10036" ph="INSERT INTO request... " />
-            <marker date="1523497404949" expanded="true" signature="13314:13433" ph="INSERT INTO driver... " />
-            <marker date="1523497404949" expanded="true" signature="14465:14584" ph="INSERT INTO driver... " />
-            <marker date="1523497404949" expanded="true" signature="18835:18873" ph="SELECT * FRO... request" />
+            <marker date="1523498532262" expanded="true" signature="6582:6621" ph="SELECT id FR... request" />
+            <marker date="1523498532262" expanded="true" signature="9997:10194" ph="INSERT INTO request... " />
+            <marker date="1523498532262" expanded="true" signature="13472:13591" ph="INSERT INTO driver... " />
+            <marker date="1523498532262" expanded="true" signature="14735:14854" ph="INSERT INTO driver... " />
+            <marker date="1523498532262" expanded="true" signature="19071:19109" ph="SELECT * FRO... request" />
           </folding>
         </state>
       </provider>
@@ -571,11 +573,11 @@
           <caret line="449" column="85" lean-forward="false" selection-start-line="449" selection-start-column="85" selection-end-line="449" selection-end-column="85" />
           <folding>
             <element signature="e#0#94#0" expanded="true" />
-            <marker date="1523497404949" expanded="true" signature="6553:6592" ph="SELECT id FR... request" />
-            <marker date="1523497404949" expanded="true" signature="9839:10036" ph="INSERT INTO request... " />
-            <marker date="1523497404949" expanded="true" signature="13314:13433" ph="INSERT INTO driver... " />
-            <marker date="1523497404949" expanded="true" signature="14465:14584" ph="INSERT INTO driver... " />
-            <marker date="1523497404949" expanded="true" signature="18835:18873" ph="SELECT * FRO... request" />
+            <marker date="1523498532262" expanded="true" signature="6582:6621" ph="SELECT id FR... request" />
+            <marker date="1523498532262" expanded="true" signature="9997:10194" ph="INSERT INTO request... " />
+            <marker date="1523498532262" expanded="true" signature="13472:13591" ph="INSERT INTO driver... " />
+            <marker date="1523498532262" expanded="true" signature="14735:14854" ph="INSERT INTO driver... " />
+            <marker date="1523498532262" expanded="true" signature="19071:19109" ph="SELECT * FRO... request" />
           </folding>
         </state>
       </provider>
@@ -652,11 +654,11 @@
           <caret line="449" column="85" lean-forward="false" selection-start-line="449" selection-start-column="85" selection-end-line="449" selection-end-column="85" />
           <folding>
             <element signature="e#0#94#0" expanded="true" />
-            <marker date="1523497404949" expanded="true" signature="6553:6592" ph="SELECT id FR... request" />
-            <marker date="1523497404949" expanded="true" signature="9839:10036" ph="INSERT INTO request... " />
-            <marker date="1523497404949" expanded="true" signature="13314:13433" ph="INSERT INTO driver... " />
-            <marker date="1523497404949" expanded="true" signature="14465:14584" ph="INSERT INTO driver... " />
-            <marker date="1523497404949" expanded="true" signature="18835:18873" ph="SELECT * FRO... request" />
+            <marker date="1523498532262" expanded="true" signature="6582:6621" ph="SELECT id FR... request" />
+            <marker date="1523498532262" expanded="true" signature="9997:10194" ph="INSERT INTO request... " />
+            <marker date="1523498532262" expanded="true" signature="13472:13591" ph="INSERT INTO driver... " />
+            <marker date="1523498532262" expanded="true" signature="14735:14854" ph="INSERT INTO driver... " />
+            <marker date="1523498532262" expanded="true" signature="19071:19109" ph="SELECT * FRO... request" />
           </folding>
         </state>
       </provider>
@@ -733,11 +735,11 @@
           <caret line="449" column="85" lean-forward="false" selection-start-line="449" selection-start-column="85" selection-end-line="449" selection-end-column="85" />
           <folding>
             <element signature="e#0#94#0" expanded="true" />
-            <marker date="1523497404949" expanded="true" signature="6553:6592" ph="SELECT id FR... request" />
-            <marker date="1523497404949" expanded="true" signature="9839:10036" ph="INSERT INTO request... " />
-            <marker date="1523497404949" expanded="true" signature="13314:13433" ph="INSERT INTO driver... " />
-            <marker date="1523497404949" expanded="true" signature="14465:14584" ph="INSERT INTO driver... " />
-            <marker date="1523497404949" expanded="true" signature="18835:18873" ph="SELECT * FRO... request" />
+            <marker date="1523498532262" expanded="true" signature="6582:6621" ph="SELECT id FR... request" />
+            <marker date="1523498532262" expanded="true" signature="9997:10194" ph="INSERT INTO request... " />
+            <marker date="1523498532262" expanded="true" signature="13472:13591" ph="INSERT INTO driver... " />
+            <marker date="1523498532262" expanded="true" signature="14735:14854" ph="INSERT INTO driver... " />
+            <marker date="1523498532262" expanded="true" signature="19071:19109" ph="SELECT * FRO... request" />
           </folding>
         </state>
       </provider>
@@ -814,11 +816,11 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#94#0" expanded="true" />
-            <marker date="1523497404949" expanded="true" signature="6553:6592" ph="SELECT id FR... request" />
-            <marker date="1523497404949" expanded="true" signature="9839:10036" ph="INSERT INTO request... " />
-            <marker date="1523497404949" expanded="true" signature="13314:13433" ph="INSERT INTO driver... " />
-            <marker date="1523497404949" expanded="true" signature="14465:14584" ph="INSERT INTO driver... " />
-            <marker date="1523497404949" expanded="true" signature="18835:18873" ph="SELECT * FRO... request" />
+            <marker date="1523498532262" expanded="true" signature="6582:6621" ph="SELECT id FR... request" />
+            <marker date="1523498532262" expanded="true" signature="9997:10194" ph="INSERT INTO request... " />
+            <marker date="1523498532262" expanded="true" signature="13472:13591" ph="INSERT INTO driver... " />
+            <marker date="1523498532262" expanded="true" signature="14735:14854" ph="INSERT INTO driver... " />
+            <marker date="1523498532262" expanded="true" signature="19071:19109" ph="SELECT * FRO... request" />
           </folding>
         </state>
       </provider>
@@ -878,14 +880,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/callcentre.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="584">
-          <caret line="96" column="65" lean-forward="false" selection-start-line="96" selection-start-column="65" selection-end-line="96" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/caller.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1091">
@@ -896,10 +890,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/caller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="29" column="50" lean-forward="true" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="50" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/callcentre.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="96" column="65" lean-forward="false" selection-start-line="96" selection-start-column="65" selection-end-line="96" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/driver.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="307">
+          <caret line="305" column="31" lean-forward="false" selection-start-line="305" selection-start-column="28" selection-end-line="305" selection-end-column="31" />
+          <folding>
+            <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/static/js/callcentremap.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1821">
-          <caret line="45" column="23" lean-forward="false" selection-start-line="45" selection-start-column="23" selection-end-line="45" selection-end-column="23" />
+        <state relative-caret-position="653">
+          <caret line="160" column="75" lean-forward="true" selection-start-line="157" selection-start-column="18" selection-end-line="160" selection-end-column="75" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
@@ -908,8 +930,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/driver.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="93" column="45" lean-forward="false" selection-start-line="93" selection-start-column="45" selection-end-line="93" selection-end-column="45" />
+        <state relative-caret-position="623">
+          <caret line="148" column="65" lean-forward="true" selection-start-line="148" selection-start-column="65" selection-end-line="148" selection-end-column="65" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
@@ -918,35 +940,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-764">
-          <caret line="259" column="27" lean-forward="false" selection-start-line="259" selection-start-column="27" selection-end-line="259" selection-end-column="27" />
+        <state relative-caret-position="307">
+          <caret line="348" column="18" lean-forward="false" selection-start-line="348" selection-start-column="18" selection-end-line="348" selection-end-column="18" />
           <folding>
             <element signature="e#0#94#0" expanded="true" />
-            <marker date="1523497404949" expanded="true" signature="6553:6592" ph="SELECT id FR... request" />
-            <marker date="1523497404949" expanded="true" signature="9839:10036" ph="INSERT INTO request... " />
-            <marker date="1523497404949" expanded="true" signature="13314:13433" ph="INSERT INTO driver... " />
-            <marker date="1523497404949" expanded="true" signature="14465:14584" ph="INSERT INTO driver... " />
-            <marker date="1523497404949" expanded="true" signature="18835:18873" ph="SELECT * FRO... request" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/driver.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2104">
-          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/caller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-18">
-          <caret line="118" column="61" lean-forward="false" selection-start-line="118" selection-start-column="61" selection-end-line="118" selection-end-column="61" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <marker date="1523498532262" expanded="true" signature="6582:6621" ph="SELECT id FR... request" />
+            <marker date="1523498532262" expanded="true" signature="9997:10194" ph="INSERT INTO request... " />
+            <marker date="1523498532262" expanded="true" signature="13472:13591" ph="INSERT INTO driver... " />
+            <marker date="1523498532262" expanded="true" signature="14735:14854" ph="INSERT INTO driver... " />
+            <marker date="1523498532262" expanded="true" signature="19071:19109" ph="SELECT * FRO... request" />
           </folding>
         </state>
       </provider>

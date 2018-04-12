@@ -141,6 +141,20 @@ function showPosition(position) {
                         callerMarker.setPosition({lat: feedback.lat, lng:feedback.lng});
                         callerMarker.setVisible(true);
 
+                        let infowindow = new google.maps.InfoWindow();
+                        callerMarker.addListener('click', function () {
+
+                            infowindow.close();
+                            infowindow.setContent({
+                                '<div id="infowindow-content">' +
+                                'Name: <span id="driver-name">' + feedback.name + '</span><br>' +
+                                'Phone: <span id="driver-phone">' + feedback.phone + '</span><br>' +
+                                'Destination: <span id="driver-name">' + feedback.destination + '</span><br>' + '</div>'
+                            });
+                            infowindow.open(map, callerMarker);
+                        });
+
+
                     }
                 }
             },
