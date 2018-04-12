@@ -417,7 +417,7 @@ def end_trip():
 @app.route("/callcentre", methods=['GET', 'POST'])
 def callcentre():
     global driver_update_entryid
-    if request['update'] == 1:
+    if request.form['update'] == 1:
         print "-------- Process Drawing request for callcentre --------"
         # retrieve all driver data from driver table
         conn = mysql.connect()
