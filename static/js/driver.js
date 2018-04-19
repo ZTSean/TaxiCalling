@@ -145,12 +145,12 @@ function showPosition(position) {
                         callerMarker.addListener('click', function () {
 
                             infowindow.close();
-                            infowindow.setContent({
+                            infowindow.setContent(
                                 '<div id="infowindow-content">' +
                                 'Name: <span id="driver-name">' + feedback.name + '</span><br>' +
                                 'Phone: <span id="driver-phone">' + feedback.phone + '</span><br>' +
                                 'Destination: <span id="driver-name">' + feedback.destination + '</span><br>' + '</div>'
-                            });
+                            );
                             infowindow.open(map, callerMarker);
                         });
 
