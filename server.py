@@ -233,7 +233,7 @@ def calltaxi():
         pendingRequest['lng'] = from_lng
         pendingRequest['name'] = name
         pendingRequest['phone'] = phone
-        pendingRequest['desination'] = destination
+        pendingRequest['destination'] = destination
         print "Assigned Driver: " + str(assignedDriver)
 
         # write new request to the database =================================================
